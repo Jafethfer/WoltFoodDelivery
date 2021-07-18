@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"></link>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Candal&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cambay&family=Candal&display=swap" rel="stylesheet">
+    <style>
+        hr{
+            margin: 0;
+        }
+        .logform{
+            font-family: 'Cambay';
+            font-size: 36px; 
+        }
+        .vl{
+            border: 1px solid #000000;
+        }
+        #Woltbrand{
+            width: 192px;
+        }
+        main{
+            background-image: url("img/landingimage.png");
+            background-repeat: no-repeat;
+            background-size:cover;
+            background-position:center;
+            width: 100vw;
+            height: 100vh;
+            position:relative;
+        }
+        footer{
+            background-color: #0EC0F8;
+            height: 20vh;
+            position: relative;
+            width:100vw;
+        }
+        #sloganLanding{
+            line-height: 1.6;
+            font-family: 'Candal';
+
+            font-size: 5vw;
+            -webkit-text-stroke-width: 1px;
+            -webkit-text-stroke-color: black;
+            color: #57CDF2;
+            position: relative;
+        }
+        .form{
+            border-radius: 15px;
+            position: relative;
+            height: 5vw;
+            width: 30vw;
+        }
+
+    </style>
+</head>
+
+<body>
+    <nav class="navbar justify-content-start">
+        <div class="col-8">
+             <a class="navbar-brand" href="#">
+                <img id="Woltbrand" src="img/logo.png" alt="Wolt">
+            </a>
+        </div>
+        <div class="d-flex flex-row justify-content-end col-4">
+            <button class="btn" type="button">
+                <div class="logform">
+                    Login
+                </div>
+            </button>
+            <div class="vl"></div>
+            <button class="btn" type="button">
+                <div class="logform">
+                    Sign up
+                </div>
+            </button>
+        </div>
+    </nav>
+    <hr>
+    <main>
+        <div class="d-inline-flex flex-column" style="top: 13vh;left: 58vw; position: relative;">
+            <div id="sloganLanding">
+                Discover and <br>get great <br>food.
+            </div>
+            <div class="flex-row">
+                <input class="form" type="text" placeholder="Search">
+            </div>
+            
+        </div>
+        
+    </main>
+    <footer>
+
+    </footer>
+</body>
+</html>
