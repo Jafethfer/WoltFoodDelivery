@@ -8,6 +8,7 @@ import { UsuariosComponent } from './usuarios/usuarios.component';
 import { MotoristasComponent } from './motoristas/motoristas.component';
 import { AdministradoresComponent } from './administradores/administradores.component';
 import { CategoriasComponent } from './categorias/categorias.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { CategoriasComponent } from './categorias/categorias.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgbModule
+    NgbModule,
+    FontAwesomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]

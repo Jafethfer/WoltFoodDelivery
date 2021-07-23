@@ -1,8 +1,9 @@
 <div class="row">
-    <div *ngFor="let categoria of categorias" class="card col-sm-6 col-md-4 col-lg-3" [style.background-color]="categoria.color">
-        <div class="card-body">
-            <h2>{{categoria.nombreCategoria}}</h2>
-            <p>{{categoria.descripcion}}</p>
+    <div *ngFor="let categoria of categorias" class="card bg-dark text-white col-sm-6 col-md-6 col-lg-4 p-0 my-2" [style.background-color]="categoria.color">
+        <img [src]="categoria.imagen" class="card-img" alt="...">
+        <div class="card-img-overlay">
+          <h5 class="card-title">{{categoria.nombreCategoria}}</h5>
+          <p class="card-text">{{categoria.descripcion}}</p>
         </div>
     </div>
 </div>
