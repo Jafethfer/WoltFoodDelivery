@@ -7,6 +7,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { MotoristasComponent } from './motoristas/motoristas.component';
 import { AdministradoresComponent } from './administradores/administradores.component';
+import { CategoriasComponent } from './categorias/categorias.component';
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import { AdministradoresComponent } from './administradores/administradores.comp
     UsuariosComponent,
     MotoristasComponent,
     AdministradoresComponent,
+    CategoriasComponent,
   ],
   imports: [
     BrowserModule,
