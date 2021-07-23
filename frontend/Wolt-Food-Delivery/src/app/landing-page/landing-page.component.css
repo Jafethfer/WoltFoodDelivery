@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Cambay&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Candal&display=swap');
+
+body,html{
+    height: 100%;
+    width: 100%;
+  }
+  hr{
+    margin: 0;
+  }
+  .logform{
+    font-family: 'Cambay';
+    font-size: 36px; 
+  }
+  .vl{
+    border: 1px solid #000000;
+  }
+  #Woltbrand{
+    width: 192px;
+  }
+  main{
+    height: 100vh;
+    width: 100vw;
+    background-image: url("../../assets/img/wolt-landing-2.jpg");
+    background-repeat: no-repeat;
+    background-size:cover;
+    background-position:center;
+    position:relative;
+    font-family: 'Candal';
+  }
+  footer{
+      background-color: #0EC0F8;
+      height: 20vh;
+      position: relative;
+      width:100vw;
+  }
+  #sloganLanding{
+      line-height: 1.6;
+      font-family: 'Candal';
+
+      font-size: 5vw;
+      -webkit-text-stroke-width: 1px;
+      -webkit-text-stroke-color: black;
+      color: #57CDF2;
+      position: relative;
+  }
+  .form{
+      border-radius: 15px;
+      position: relative;
+      height: 5vw;
+      width: 30vw;
+  }
+  .app-btn{
+    height: 4vw;
+  }
