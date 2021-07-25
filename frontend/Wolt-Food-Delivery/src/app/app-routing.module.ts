@@ -5,6 +5,7 @@ import { LoginFormComponent } from './login-form/login-form.component';
 import { SignupFormComponent } from './signup-form/signup-form.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { AdministradoresComponent } from './administradores/administradores.component';
+import { MotoristasComponent } from './motoristas/motoristas.component';
 
 const routes:Routes = [
   {
@@ -26,6 +27,10 @@ const routes:Routes = [
   {
     path: 'administrador',
     component: AdministradoresComponent
+  },
+  {
+    path: 'motorista',
+    component: MotoristasComponent
   }
 ]
 

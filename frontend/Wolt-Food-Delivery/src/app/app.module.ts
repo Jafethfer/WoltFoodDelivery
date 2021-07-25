@@ -9,6 +9,7 @@ import { MotoristasComponent } from './motoristas/motoristas.component';
 import { AdministradoresComponent } from './administradores/administradores.component';
 import { CategoriasComponent } from './categorias/categorias.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { OrdenesComponent } from './ordenes/ordenes.component';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     MotoristasComponent,
     AdministradoresComponent,
     CategoriasComponent,
+    OrdenesComponent,
   ],
   imports: [
     BrowserModule,
