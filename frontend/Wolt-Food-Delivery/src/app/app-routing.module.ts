@@ -4,6 +4,7 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { SignupFormComponent } from './signup-form/signup-form.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
+import { AdministradoresComponent } from './administradores/administradores.component';
 
 const routes:Routes = [
   {
@@ -21,6 +22,10 @@ const routes:Routes = [
   {
     path: 'usuarios',
     component: UsuariosComponent
+  },
+  {
+    path: 'administrador',
+    component: AdministradoresComponent
   }
 ]
 

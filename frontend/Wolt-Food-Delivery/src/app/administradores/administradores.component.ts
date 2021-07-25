@@ -1,15 +1,36 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { faUser, faDoorOpen, faList, faChartBar, faUserAstronaut, faClipboardList, faBars, faUtensils, faPizzaSlice, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-administradores',
   templateUrl: './administradores.component.html',
   styleUrls: ['./administradores.component.css']
 })
-export class AdministradoresComponent implements OnInit {
 
+
+export class AdministradoresComponent implements OnInit {
+  @ViewChild('adminUtils') adminUtils!: ElementRef;
+  faUser = faUser
+  faDoor = faDoorOpen
+  faList = faList
+  faChartBar = faChartBar
+  faUserAstronaut = faUserAstronaut
+  faClipboardList = faClipboardList
+  faBars = faBars
+  faUtensils = faUtensils
+  faPizzaSlice = faPizzaSlice
+  faExclamationTriangle = faExclamationTriangle
   constructor() { }
 
   ngOnInit(): void {
   }
+
+  collapseSideBar(){
+    if(this.adminUtils.nativeElement.classList.length==2){
+      this.adminUtils.nativeElement.classList.remove("nav-collapse")
+    }else{
+      this.adminUtils.nativeElement.classList.add("nav-collapse")
+    }  
+}
 
 }

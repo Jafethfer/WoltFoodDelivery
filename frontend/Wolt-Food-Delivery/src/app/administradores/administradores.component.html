@@ -1,1 +1,77 @@
-<p>administradores works!</p>
+<nav class="navbar">
+    <div class="container-fluid">
+        <div>
+            <button class="btn mr-2 menuToggle" id="gmailMenuToggle" type="button" (click)="collapseSideBar()">
+                <fa-icon [icon]="faBars"></fa-icon>
+            </button>
+            <a class="navbar-brand" routerLink="/usuarios">
+                <img id="Woltbrand" src="../../assets/img/Landing-page/logo.png">
+            </a>
+        </div>
+        <form class="d-flex">
+            <button type="button" class="btn">
+                <fa-icon [icon]="faList"></fa-icon>
+            </button>
+            <button type="button" class="btn">
+                <fa-icon [icon]="faUser"></fa-icon>
+            </button>
+            <button type="button" class="btn">
+                <fa-icon [icon]="faDoor"></fa-icon>
+            </button>
+        </form>
+    </div>
+</nav>
+<hr>
+<div class="page-container">
+    <nav class="nav" #adminUtils>
+        <ul class="nav flex-column">
+            <li class="nav-item text-center" style="margin-top:10px">
+                <button class="btn util-btn" type="button">
+                    <div style="padding:0 10px 0 10px">
+                        <fa-icon [icon]="faChartBar"></fa-icon>
+                        <span class="btn-label">  Resumen</span>
+                    </div>
+                </button>
+            </li>
+            <li class="nav-item text-center">
+                <button class="btn util-btn" type="button">
+                    <fa-icon [icon]="faUserAstronaut"></fa-icon>
+                    <span class="btn-label">  Motoristas</span>
+                </button>
+            </li>
+            <li class="nav-item text-center">
+                <button class="btn util-btn" type="button">
+                    <fa-icon [icon]="faBars"></fa-icon>
+                    <span class="btn-label">  Categorias</span>
+                </button>
+            </li>
+            <li class="nav-item text-center">
+                <button class="btn util-btn" type="button">
+                    <fa-icon [icon]="faClipboardList"></fa-icon>
+                    <span class="btn-label">  Ordenes</span>
+                </button>
+            </li>
+            <li class="nav-item text-center">
+                <button class="btn util-btn" type="button">
+                    <fa-icon [icon]="faUtensils"></fa-icon>
+                    <span class="btn-label">  Empresas</span>
+                </button>
+            </li>
+            <li class="nav-item text-center">
+                <button class="btn util-btn" type="button">
+                    <fa-icon [icon]="faPizzaSlice"></fa-icon>
+                    <span class="btn-label">  Productos</span>
+                </button>
+            </li>
+            <li class="nav-item text-center">
+                <button class="btn util-btn" type="button">
+                    <fa-icon [icon]="faExclamationTriangle"></fa-icon>
+                    <span class="btn-label">  Quejas y Denuncias</span>
+                </button>
+            </li>
+          </ul>
+    </nav>
+    <main>
+        <img src="../../assets/img/admin/dashboard.png" style="max-width: 100%;">
+    </main>
+</div>
