@@ -10,6 +10,9 @@ import { AdministradoresComponent } from './administradores/administradores.comp
 import { CategoriasComponent } from './categorias/categorias.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { OrdenesComponent } from './ordenes/ordenes.component';
+import { HttpClientModule } from '@angular/common/http';
+import { CategoriaDetalleComponent } from './categoria-detalle/categoria-detalle.component'
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -21,12 +24,15 @@ import { OrdenesComponent } from './ordenes/ordenes.component';
     AdministradoresComponent,
     CategoriasComponent,
     OrdenesComponent,
+    CategoriaDetalleComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

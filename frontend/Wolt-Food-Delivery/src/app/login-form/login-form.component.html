@@ -26,20 +26,33 @@
         </div>
         <div class="row py-5">
             <div class="col-9">
-                <form>
+                <form [formGroup]="loginForm">
                     <div class="row">
                         <div>
-                            Email: <input type="text" class="form-control" placeholder="example@mail.com">
+                            Email: <input type="text" class="form-control" placeholder="example@mail.com" formControlName="email" pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" required>
+                            <div *ngIf="loginForm.invalid">
+                                <div *ngIf="email?.errors?.required && email?.touched" style="color: red;">
+                                    Este campo no debe quedar vacio
+                                </div>
+                                <div *ngIf="email?.errors?.pattern && email?.touched" style="color: red;">
+                                    El email es invalido, revise de nuevo.
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="row pt-5">
                         <div>
-                            Password: <input type="password" class="form-control">
+                            Password: <input type="password" class="form-control" formControlName="password" required>
+                            <div *ngIf="loginForm.invalid">
+                                <div *ngIf="password?.errors?.required && password?.touched" style="color: red;">
+                                    Este campo no debe quedar vacio
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </form>
             </div>
-            <button class="col-3 btn text-white" id="login-btn">
+            <button class="col-3 btn text-white" id="login-btn" (click)="checkLogin()">
                 Login
             </button>
             

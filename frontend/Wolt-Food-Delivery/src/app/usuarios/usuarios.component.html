@@ -18,8 +18,13 @@
 </nav>
 <hr>
 <main>
-    <div class="container" id="categoryCards">
-        <app-categorias></app-categorias>
+    <div class="container" #categoryCards id="categoryCards">
+        <app-categorias (CategoryDescriptionEvent)="OpenDetalleCategory($event)"></app-categorias>
     </div>
+    <app-categoria-detalle #categoriaDetalle *ngIf="viewCategory" [categoryInfo]="categoryInfo" (goBackEvent)="CerrarDetalleCategoria($event)" (ordenarProducto)="CrearNuevaOrden($event)"></app-categoria-detalle>
 </main>
+
+
+
+
 
