@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Cambay&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Candal&display=swap');
+
+html{
+    width: 100vw;
+    height: 100vh;
+}
+body{
+    min-width: 100vw;
+    min-height: 100vh;
+}
+#Woltbrand{
+    margin-left: 10px;
+    width: 192px;
+}
+fa-icon{
+    font-size: 30px;
+}
+hr{
+    margin: 0;
+}
+.page-container{
+    height: inherit;
+    padding: 0 !important;
+    display: flex;
+}
+.nav{
+    width: 20vw;
+    height: 100vh;
+    position: relative;
+    background-color: white;
+    transition: width 0.2s;
+    border-right: 1px solid #e5e5e5;
+    flex-shrink:0;
+}
+.nav-collapse{
+    width: 10vw;
+}
+.flex-column{
+    width:inherit;
+    transition: width 0s;
+}
+.nav-collapse .btn-label{
+    display: none;
+}

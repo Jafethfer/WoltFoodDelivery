@@ -1,0 +1,81 @@
+<button class="btn" type="button" (click)="goBack()">
+    <fa-icon [icon]="faCaretLeft" style="font-size: 50px;"></fa-icon>
+</button>
+<div class="container" #empresasCards>
+    <div class="row">
+        <div *ngFor="let empresa of categoryInfo.empresas" class="card bg-dark col-sm-6 col-md-6 col-lg-4 p-0 my-2" (click)="ModalProductos(empresa.nombreEmpresa,empresa.productos)">
+            <img [src]="empresa.banner" class="card-img" alt="...">
+            <div class="card-img-overlay">
+              <div>
+                <h5 class="card-title">{{empresa.nombreEmpresa}}</h5>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #ProductosModal let-modal>
+    <div class="modal-header" style="background-color: cyan;">
+      <h4 class="modal-title text-white">{{currentCompany}}</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div class="container">
+            <div class="row">
+                    <div *ngFor="let producto of productos" class="card col-lg-6 col-md-6 col-sm-12 p-0 my-2">
+                        <img src="../../assets/img/productos/producto.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <p class="card-text">{{producto.nombreProducto}}
+                            <span style="float: right;">
+                                <button class="btn ask" type="button" (click)="pedirModal(producto)">
+                                    Pedir
+                                </button>
+                            </span>
+                        </p>
+                        <p>$ {{producto.precio}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+    </div>
+</ng-template>
+
+<ng-template #PedirModal let-modal>
+    <div class="modal-header" style="background-color: cyan;">
+      <h4 class="modal-title text-white">{{producto.nombreProducto}}</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="pedirProductoForm">
+            <label for="cantidadInput">Cantidad: </label>
+            <input class="form-control" type="number" formControlName="cantidad" required>
+            <div *ngIf="pedirProductoForm.invalid">
+                <div *ngIf="cantidad?.errors?.required" style="color:red">
+                    Este campo no debe quedar vacio
+                </div>
+            </div>
+            
+            <label for="pagoSelect">Forma de pago: </label>
+            <select class="form-control" id="pagoSelect" formControlName="pago" required>
+                <option selected>Efectivo</option>
+                <option>Tarjeta</option>
+            </select>
+            <div *ngIf="pedirProductoForm.invalid">
+                <div *ngIf="pago?.errors?.required" style="color:red">
+                    Este campo no debe quedar vacio
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+      <button type="button" class="btn" (click)="pedirProducto(producto)" style="background-color: cyan;">Ordenar</button>
+    </div>
+</ng-template>

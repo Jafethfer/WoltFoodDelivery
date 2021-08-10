@@ -1,0 +1,30 @@
+<nav class="navbar">
+    <div class="container-fluid">
+        <a class="navbar-brand" routerLink="/usuarios">
+            <img id="Woltbrand" src="../../assets/img/Landing-page/logo.png">
+        </a>
+        <form class="d-flex">
+            <button type="button" class="btn">
+                <fa-icon [icon]="faList"></fa-icon>
+            </button>
+            <button type="button" class="btn">
+                <fa-icon [icon]="faUser"></fa-icon>
+            </button>
+            <button type="button" class="btn">
+                <fa-icon [icon]="faDoor"></fa-icon>
+            </button>
+        </form>
+    </div>
+</nav>
+<hr>
+<main>
+    <div class="container" #categoryCards id="categoryCards">
+        <app-categorias (CategoryDescriptionEvent)="OpenDetalleCategory($event)"></app-categorias>
+    </div>
+    <app-categoria-detalle #categoriaDetalle *ngIf="viewCategory" [categoryInfo]="categoryInfo" (goBackEvent)="CerrarDetalleCategoria($event)" (ordenarProducto)="CrearNuevaOrden($event)"></app-categoria-detalle>
+</main>
+
+
+
+
+
