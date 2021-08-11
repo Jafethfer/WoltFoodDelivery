@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class IsLoggedInService {
   loggedIn:boolean = false
+  role:any
   isLoggedIn(){
     return this.loggedIn
   }

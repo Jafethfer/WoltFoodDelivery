@@ -36,12 +36,15 @@ export class LoginFormComponent implements OnInit {
       }else{
         if(results.role=="Cliente"){
           this.loginService.loggedIn=true
+          this.loginService.role="Cliente"
           this.router.navigateByUrl('usuarios',{state: results})
         }else if(results.role=="Motorista"){
           this.loginService.loggedIn=true
+          this.loginService.role="Motorista"
           this.router.navigateByUrl('motorista',{state: results})
         }else if(results.role=="Administrador"){
           this.loginService.loggedIn=true
+          this.loginService.role="Administrador"
           this.router.navigateByUrl('administrador',{state: results})
         }else{
           alert('Error de roles, contacte al servicio tecnico')
