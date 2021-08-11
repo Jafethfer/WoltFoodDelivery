@@ -1,16 +1,24 @@
 var mongoose = require('mongoose')
 
 var ordenSchema = new mongoose.Schema({
+    productoId: Number,
     nombreProducto: String,
-    descripcion: String,
     cantidad: Number,
-    precio: Number
+    precio: Number,
+    estado: String,
+    motoristaId: 3,
+    nombreMotorista: String
 })
 
 var usuarioSchema = new mongoose.Schema({
-    nombre: String,
-    apellido: String,
-    ordenes: [ordenSchema]
+    id: Number,
+    firstName: String,
+    lastName: String,
+    phone: String,
+    email: String,
+    password: String,
+    role: String,
+    pedidos: [ordenSchema]
 })
 
 module.exports = mongoose.model('usuarios',usuarioSchema)
