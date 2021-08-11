@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { faUser, faDoorOpen, faList, faChartBar, faUserAstronaut, faClipboardList, faBars, faUtensils, faPizzaSlice, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -10,6 +11,7 @@ import { faUser, faDoorOpen, faList, faChartBar, faUserAstronaut, faClipboardLis
 
 export class AdministradoresComponent implements OnInit {
   @ViewChild('adminUtils') adminUtils!: ElementRef;
+  loggedAdmin:any
   faUser = faUser
   faDoor = faDoorOpen
   faList = faList
@@ -20,9 +22,11 @@ export class AdministradoresComponent implements OnInit {
   faUtensils = faUtensils
   faPizzaSlice = faPizzaSlice
   faExclamationTriangle = faExclamationTriangle
-  constructor() { }
+  
+  constructor(private activatedroute: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.loggedAdmin=history.state
   }
 
   collapseSideBar(){

@@ -3,6 +3,7 @@ import { faUser, faDoorOpen, faList } from '@fortawesome/free-solid-svg-icons';
 import { CategoriasComponent } from '../categorias/categorias.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-usuarios',
@@ -10,6 +11,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./usuarios.component.css']
 })
 export class UsuariosComponent implements OnInit {
+  currentUser:any
   faUser = faUser
   faDoor = faDoorOpen
   faList = faList
@@ -17,7 +19,7 @@ export class UsuariosComponent implements OnInit {
   categoryInfo: any
   viewCategory: Boolean = false
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient, private activatedroute: ActivatedRoute) { }
 
   OpenDetalleCategory(categoryInfo: any){
     this.categoryInfo = categoryInfo
@@ -42,6 +44,7 @@ export class UsuariosComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.currentUser=history.state
   }
 
 }

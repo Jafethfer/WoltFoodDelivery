@@ -13,6 +13,8 @@ import { OrdenesComponent } from './ordenes/ordenes.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CategoriaDetalleComponent } from './categoria-detalle/categoria-detalle.component'
 import { ReactiveFormsModule } from '@angular/forms';
+import { IsLoggedInService } from './is-logged-in.service';
+import { LogInGuardGuard } from './log-in-guard.guard';
 
 
 @NgModule({
@@ -34,7 +36,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [IsLoggedInService,LogInGuardGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
