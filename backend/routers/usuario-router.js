@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 router.post('/pedidos',function(req,res){
     usuario.find({"id":req.body.usuarioId}).select("pedidos -_id")
     .then(val=>{
-        res.send(val)
+        res.send(val[0].pedidos)
     })
 })
 
