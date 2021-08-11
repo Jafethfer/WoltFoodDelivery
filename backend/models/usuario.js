@@ -6,7 +6,7 @@ var ordenSchema = new mongoose.Schema({
     cantidad: Number,
     precio: Number,
     estado: String,
-    motoristaId: 3,
+    motoristaId: Number,
     nombreMotorista: String
 })
 
