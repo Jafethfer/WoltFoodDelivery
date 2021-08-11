@@ -15,6 +15,7 @@ import { CategoriaDetalleComponent } from './categoria-detalle/categoria-detalle
 import { ReactiveFormsModule } from '@angular/forms';
 import { IsLoggedInService } from './is-logged-in.service';
 import { LogInGuardGuard } from './log-in-guard.guard';
+import { DefaultGuard } from './default.guard';
 
 
 @NgModule({
@@ -36,7 +37,7 @@ import { LogInGuardGuard } from './log-in-guard.guard';
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [IsLoggedInService,LogInGuardGuard],
+  providers: [IsLoggedInService,LogInGuardGuard, DefaultGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

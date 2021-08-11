@@ -4,13 +4,13 @@
             <img id="Woltbrand" src="../../assets/img/Landing-page/logo.png">
         </a>
         <form class="d-flex">
-            <button type="button" class="btn">
+            <button type="button" class="btn" (click)="showOrders()">
                 <fa-icon [icon]="faList"></fa-icon>
             </button>
             <button type="button" class="btn">
                 <fa-icon [icon]="faUser"></fa-icon>
             </button>
-            <button type="button" class="btn">
+            <button type="button" class="btn" (click)="signOut()">
                 <fa-icon [icon]="faDoor"></fa-icon>
             </button>
         </form>

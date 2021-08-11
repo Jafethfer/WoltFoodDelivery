@@ -4,6 +4,8 @@ import { CategoriasComponent } from '../categorias/categorias.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
+import { IsLoggedInService } from '../is-logged-in.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-usuarios',
@@ -19,7 +21,7 @@ export class UsuariosComponent implements OnInit {
   categoryInfo: any
   viewCategory: Boolean = false
 
-  constructor(private httpClient: HttpClient, private activatedroute: ActivatedRoute) { }
+  constructor(private httpClient: HttpClient, private activatedroute: ActivatedRoute, private loggedin: IsLoggedInService, private router:Router) { }
 
   OpenDetalleCategory(categoryInfo: any){
     this.categoryInfo = categoryInfo
@@ -40,6 +42,22 @@ export class UsuariosComponent implements OnInit {
     })
     .subscribe(results=>{
       console.log(results)
+    })
+  }
+
+  signOut(){
+    this.loggedin.loggedIn=false
+    this.loggedin.role=''
+    this.router.navigate([''])
+  }
+
+  showOrders(){
+    this.httpClient.post('http://localhost:3000/usuario/pedidos',
+    {
+      usuarioId: this.currentUser.id
+    })
+    .subscribe((pedidos:any)=>{
+      console.log(pedidos)
     })
   }
 
