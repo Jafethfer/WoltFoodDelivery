@@ -53,8 +53,10 @@ export class CategoriaDetalleComponent implements OnInit {
       this.modalService.dismissAll()
       alert('Estamos procesando tu orden!')
       let nuevaOrden = {
-        producto: producto,
+        productoId: producto.id,
+        nombreProducto: producto.nombreProducto,
         cantidad: this.pedirProductoForm.get('cantidad')?.value,
+        precio: this.pedirProductoForm.get('cantidad')?.value*producto.precio,
         pago: this.pedirProductoForm.get('pago')?.value
       }
       this.ordenarProducto.emit(nuevaOrden)

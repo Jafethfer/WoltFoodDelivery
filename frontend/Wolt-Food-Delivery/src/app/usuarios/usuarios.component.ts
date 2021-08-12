@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { IsLoggedInService } from '../is-logged-in.service';
 import { Router } from '@angular/router';
+import { identifierModuleUrl } from '@angular/compiler';
 
 @Component({
   selector: 'app-usuarios',
@@ -14,14 +15,17 @@ import { Router } from '@angular/router';
 })
 export class UsuariosComponent implements OnInit {
   currentUser:any
+  pedidos:any
   faUser = faUser
   faDoor = faDoorOpen
   faList = faList
   @ViewChild('categoryCards') CardsContainer!:ElementRef;
+  @ViewChild('PedidosModal') PedidosModal:any
   categoryInfo: any
   viewCategory: Boolean = false
 
-  constructor(private httpClient: HttpClient, private activatedroute: ActivatedRoute, private loggedin: IsLoggedInService, private router:Router) { }
+  constructor(private httpClient: HttpClient, private activatedroute: ActivatedRoute, private loggedin: IsLoggedInService, private router:Router,
+    private ModalService:NgbModal) { }
 
   OpenDetalleCategory(categoryInfo: any){
     this.categoryInfo = categoryInfo
@@ -37,11 +41,19 @@ export class UsuariosComponent implements OnInit {
   CrearNuevaOrden(nuevaOrden:any){
     this.httpClient.post('http://localhost:3000/usuario/agregarOrden',
     {
-      usuarioId: 1,
-      nuevaOrden: nuevaOrden
+      id: this.currentUser.phone+"-"+(parseInt(this.pedidos[this.pedidos.length-1].id.charAt(this.pedidos[this.pedidos.length-1].id.length-1))+1),
+      usuarioId: this.currentUser.id,
+      productoId: nuevaOrden.productoId,
+      nombreProducto: nuevaOrden.nombreProducto,
+      cantidad: nuevaOrden.cantidad,
+      precio: nuevaOrden.precio,
+      estado: 'Procesando',
+      motoristaId: 3,
+      nombreMotorista: 'Luis Fernando'
     })
     .subscribe(results=>{
       console.log(results)
+      this.getOrders()
     })
   }
 
@@ -52,17 +64,22 @@ export class UsuariosComponent implements OnInit {
   }
 
   showOrders(){
+    this.ModalService.open(this.PedidosModal,{size: 'lg'})
+  }
+
+  getOrders(){
     this.httpClient.post('http://localhost:3000/usuario/pedidos',
     {
       usuarioId: this.currentUser.id
     })
     .subscribe((pedidos:any)=>{
-      console.log(pedidos)
+      this.pedidos=pedidos
     })
   }
 
   ngOnInit(): void {
     this.currentUser=history.state
+    this.getOrders()
   }
 
 }

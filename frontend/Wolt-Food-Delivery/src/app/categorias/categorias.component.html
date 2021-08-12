@@ -1,5 +1,5 @@
 <div class="row categorias-cards">
-    <div *ngFor="let categoria of categorias" class="card bg-dark col-sm-6 col-md-6 col-lg-4 p-0 my-2" (click)="categoryDetalle(categoria)" [style.background-color]="categoria.color">
+    <div *ngFor="let categoria of categorias" class="card bg-dark col-sm-6 col-md-6 col-lg-4 p-0 my-2" (click)="categoryDetalle(categoria)" [style.background-color]="categoria.color" style="cursor: pointer;">
         <img [src]="categoria.imagen" class="card-img" alt="...">
         <div class="card-img-overlay">
           <div [style.color]="categoria.font" [style.text-shadow]="categoria.shadow">
