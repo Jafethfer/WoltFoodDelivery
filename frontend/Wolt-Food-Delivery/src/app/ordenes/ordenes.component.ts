@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output } from '@angular/core';
+import { EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-ordenes',
@@ -7,7 +8,13 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class OrdenesComponent implements OnInit {
   @Input() order!:any
+  @Output() mostrarDetallePedido = new EventEmitter<any>()
+  
   constructor() { }
+
+  PedidoModal(order:any){
+    this.mostrarDetallePedido.emit(order)
+  }
 
   ngOnInit(): void {
   }

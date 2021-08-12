@@ -54,6 +54,21 @@ export class UsuariosComponent implements OnInit {
     .subscribe(results=>{
       console.log(results)
       this.getOrders()
+      this.httpClient.post('http://localhost:3000/motorista/agregarOrden',
+      {
+        motoristaId: 1,
+        id: this.currentUser.phone+"-"+(parseInt(this.pedidos[this.pedidos.length-1].id.charAt(this.pedidos[this.pedidos.length-1].id.length-1))+1),
+        clienteId: this.currentUser.id,
+        cliente: this.currentUser.firstName+" "+this.currentUser.lastName,
+        productoId: nuevaOrden.productoId,
+        nombreProducto: nuevaOrden.nombreProducto,
+        cantidad: nuevaOrden.cantidad,
+        precio: nuevaOrden.precio,
+        estado: "Procesando"
+      })
+      .subscribe(results=>{
+        console.log(results)
+      })
     })
   }
 

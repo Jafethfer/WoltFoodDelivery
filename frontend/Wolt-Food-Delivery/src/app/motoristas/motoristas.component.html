@@ -26,33 +26,41 @@
     <nav class="nav" #motoristUtils>
         <ul class="nav flex-column">
             <li class="nav-item text-center" style="margin-top:10px">
-                <button class="btn util-btn" type="button">
+                <button class="btn util-btn" type="button" (click)="mostrarOrdenes('Mandaditos')">
                     <div style="padding:0 10px 0 10px">
                         <fa-icon [icon]="faBoxOpen"></fa-icon>
                         <span class="btn-label">  Pedidos</span>
                     </div>
                 </button>
             </li>
+            <li class="nav-item text-center" style="margin-top:10px">
+                <button class="btn util-btn" type="button" (click)="mostrarOrdenes('Farmacias')">
+                    <div style="padding:0 10px 0 10px">
+                        <fa-icon [icon]="faHeartbeat"></fa-icon>
+                        <span class="btn-label">  Farmacia</span>
+                    </div>
+                </button>
+            </li>
             <li class="nav-item text-center">
-                <button class="btn util-btn" type="button">
+                <button class="btn util-btn" type="button" (click)="mostrarOrdenes('Mascotas')">
                     <fa-icon [icon]="faPaw"></fa-icon>
                     <span class="btn-label">  Mascotas</span>
                 </button>
             </li>
             <li class="nav-item text-center">
-                <button class="btn util-btn" type="button">
+                <button class="btn util-btn" type="button" (click)="mostrarOrdenes('Bebidas')">
                     <fa-icon [icon]="faGlassCheers"></fa-icon>
                     <span class="btn-label">  Bebidas</span>
                 </button>
             </li>
             <li class="nav-item text-center">
-                <button class="btn util-btn" type="button">
+                <button class="btn util-btn" type="button" (click)="mostrarOrdenes('Super')">
                     <fa-icon [icon]="faShoppingBasket"></fa-icon>
                     <span class="btn-label">  Super</span>
                 </button>
             </li>
             <li class="nav-item text-center">
-                <button class="btn util-btn" type="button">
+                <button class="btn util-btn" type="button" (click)="mostrarOrdenes('Restaurantes')">
                     <fa-icon [icon]="faPizzaSlice"></fa-icon>
                     <span class="btn-label">  Restaurantes</span>
                 </button>
@@ -68,9 +76,38 @@
     <main>
         <main>
             <div #orders>
-                <app-ordenes *ngFor="let order of ordenes" [order]="order"></app-ordenes>
+                <div *ngIf="pedidosView">
+                    <app-ordenes *ngFor="let order of pedidosOrdenes" [order]="order" (mostrarDetallePedido)="PedidoModal($event)"></app-ordenes>
+                </div>
+                <div *ngIf="mascotasView">
+                    <app-ordenes *ngFor="let order of mascotasOrdenes" [order]="order" (mostrarDetallePedido)="PedidoModal($event)"></app-ordenes>
+                </div>
+                <div *ngIf="bebidasView">
+                    <app-ordenes  *ngFor="let order of bebidasOrdenes" [order]="order" (mostrarDetallePedido)="PedidoModal($event)"></app-ordenes>
+                </div>
+                <div *ngIf="restaurantesView">
+                    <app-ordenes *ngFor="let order of restaurantesOrdenes" [order]="order" (mostrarDetallePedido)="PedidoModal($event)"></app-ordenes>
+                </div>
+                
             </div>
             
         </main>
     </main>
 </div>
+
+<ng-template #PedidosModal let-modal>
+    <div class="modalPedido">
+        <div class="modal-header" style="background-color: cyan;">
+          <h4 class="modal-title text-white">Detalles del pedido {{currentOrder.id}}</h4>
+          <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            Algo viene aqui
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+        </div>
+    </div>
+</ng-template>
