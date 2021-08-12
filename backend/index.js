@@ -8,6 +8,7 @@ var administrador = require('./models/administrador')
 var motorista = require('./models/motorista')
 var categoriaRouter = require('./routers/categoria-router.js')
 var usuarioRouter = require('./routers/usuario-router.js')
+var motoristaRouter = require('./routers/motorista-router.js')
 
 var app = express();
 
@@ -16,6 +17,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/categoria',categoriaRouter)
 app.use('/usuario',usuarioRouter)
+app.use('/motorista',motoristaRouter)
 
 app.post('/login',function(req,res){
     usuario.findOne({'email':req.body.email,'password':req.body.password})

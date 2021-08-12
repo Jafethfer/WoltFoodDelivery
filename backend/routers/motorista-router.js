@@ -1,28 +1,27 @@
 var express = require('express')
 var router = express.Router()
-var usuario = require('../models/usuario.js')
+var motorista = require('../models/motorista.js')
 const mongoose = require('mongoose');
 
-router.post('/pedidos',function(req,res){
-    usuario.find({"id":req.body.usuarioId}).select("pedidos -_id")
+router.post('/ordenes',function(req,res){
+    motorista.find({"id":req.body.motoristaId}).select("pedidos -_id")
     .then(val=>{
         res.send(val[0].pedidos)
     })
 })
 
 router.post('/agregarOrden',function(req,res){
-    usuario.updateOne({"id":req.body.usuarioId},
+    motorista.updateOne({"id":req.body.motoristaId},
     {
         $push: {"pedidos":{
             id: req.body.id,
-            usuarioId: req.body.usuarioId,
+            clienteId: req.body.clienteId,
+            cliente: req.body.cliente,
             productoId: req.body.productoId,
             nombreProducto: req.body.nombreProducto,
             cantidad: req.body.cantidad,
             precio: req.body.precio,
             estado: req.body.estado,
-            motoristaId: req.body.motoristaId,
-            nombreMotorista: req.body.nombreMotorista
         }}
     })
     .then(result=>{
