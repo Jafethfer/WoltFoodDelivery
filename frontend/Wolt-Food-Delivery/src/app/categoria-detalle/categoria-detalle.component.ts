@@ -4,12 +4,14 @@ import { faCaretLeft } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
+
 @Component({
   selector: 'app-categoria-detalle',
   templateUrl: './categoria-detalle.component.html',
   styleUrls: ['./categoria-detalle.component.css']
 })
 export class CategoriaDetalleComponent implements OnInit {
+  
   faCaretLeft = faCaretLeft
   productos: any
   currentCompany:any
@@ -55,6 +57,7 @@ export class CategoriaDetalleComponent implements OnInit {
       let nuevaOrden = {
         productoId: producto.id,
         nombreProducto: producto.nombreProducto,
+        nombreEmpresa: this.currentCompany,
         cantidad: this.pedirProductoForm.get('cantidad')?.value,
         precio: this.pedirProductoForm.get('cantidad')?.value*producto.precio,
         pago: this.pedirProductoForm.get('pago')?.value

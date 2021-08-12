@@ -104,7 +104,46 @@
           </button>
         </div>
         <div class="modal-body">
-            Algo viene aqui
+            <div class="container" style="font-family: Candal;">
+                <div class="row mb-3">
+                    <div class="col-7">
+                        <img src="../../assets/img/productos/producto.jpg" alt="..." style="float: left;width: 100%;">
+                    </div>
+                    <div class="col">
+                        Restaurante:
+                        <input type="text" [value]="currentOrder.nombreEmpresa" readonly style="margin-bottom: 8px;">
+                        Producto:
+                        <input type="text" [value]="currentOrder.nombreProducto" readonly style="margin-bottom: 8px;">
+                        Cantidad: 
+                        <input type="text" [value]="currentOrder.cantidad" readonly>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        Id del pedido:
+                        <input [value]="currentOrder.id" type="text" readonly>
+                    </div>
+                    <div class="col-6">
+                        Cliente:
+                        <input [value]="currentOrder.cliente" readonly>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-6">
+                        Numero del cliente:
+                        <input [value]="currentOrder.phoneCliente" readonly>
+                    </div>
+                    <div class="col-6">
+                        Precio Final:
+                        <input [value]="currentOrder.precio" readonly>
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="mapa-orden">
+
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>

@@ -45,6 +45,7 @@ export class UsuariosComponent implements OnInit {
       usuarioId: this.currentUser.id,
       productoId: nuevaOrden.productoId,
       nombreProducto: nuevaOrden.nombreProducto,
+      nombreEmpresa: nuevaOrden.nombreEmpresa,
       cantidad: nuevaOrden.cantidad,
       precio: nuevaOrden.precio,
       estado: 'Procesando',
@@ -60,8 +61,10 @@ export class UsuariosComponent implements OnInit {
         id: this.currentUser.phone+"-"+(parseInt(this.pedidos[this.pedidos.length-1].id.charAt(this.pedidos[this.pedidos.length-1].id.length-1))+1),
         clienteId: this.currentUser.id,
         cliente: this.currentUser.firstName+" "+this.currentUser.lastName,
+        phoneCliente: this.currentUser.phone,
         productoId: nuevaOrden.productoId,
         nombreProducto: nuevaOrden.nombreProducto,
+        nombreEmpresa: nuevaOrden.nombreEmpresa,
         cantidad: nuevaOrden.cantidad,
         precio: nuevaOrden.precio,
         estado: "Procesando"

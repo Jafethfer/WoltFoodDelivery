@@ -2,6 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { faDoorOpen, faUser, faList, faBoxOpen, faPaw, faGlassCheers, faShoppingBasket, faPizzaSlice, faExclamationTriangle, faBars, faHeartbeat } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import * as mapboxgl from 'mapbox-gl';
+import { environment } from 'src/environments/environment';
+import * as MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
+import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 
 @Component({
   selector: 'app-motoristas',
@@ -38,6 +42,9 @@ export class MotoristasComponent implements OnInit {
   faBars = faBars
   faHeartbeat = faHeartbeat
 
+  mapa!: mapboxgl.Map;
+  marker = new mapboxgl.Marker();
+
   getOrders(){
     this.httpClient.post('http://localhost:3000/motorista/ordenes',
     {
@@ -64,7 +71,28 @@ export class MotoristasComponent implements OnInit {
 
   PedidoModal(order:any){
     this.currentOrder=order
-    this.modalService.open(this.pedidosModal,{size:'lg'})
+    this.modalService.open(this.pedidosModal,{size:'lg'});
+    (mapboxgl as any).accessToken = environment.mapboxKey
+    const map = new mapboxgl.Map({
+      container: 'mapa-orden', // container ID
+      style: 'mapbox://styles/mapbox/streets-v11', // style URL
+      center: [-86.792771,15.780129], // starting position
+      zoom: 14 // starting zoom
+    });
+
+    map.on('click', this.add_marker);
+  }
+
+  add_marker (event:any) {
+    var coordinates = event.lngLat;
+    const geocoder = new MapboxGeocoder({
+      accessToken: environment.mapboxKey,
+      mapboxgl: (mapboxgl as any),
+      reverseGeocode: true
+    })
+    geocoder.query('-86.792771,15.780129')
+    console.log('Lng:', coordinates.lng, 'Lat:', coordinates.lat);
+    this.marker.setLngLat(coordinates).addTo(this.mapa);
   }
 
   mostrarOrdenes(tipoOrden:String){
@@ -117,7 +145,10 @@ export class MotoristasComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentUser=history.state
-    this.getOrders()
+    
+    this.getOrders();
+
+    
   }
 
   collapseSideBar(){

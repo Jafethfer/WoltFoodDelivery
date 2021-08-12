@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Cambay&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Candal&display=swap');
+@import url("../../../node_modules/@tomtom-international/web-sdk-maps/dist/maps.css");
 
 html{
     width: 100vw;
@@ -49,4 +50,8 @@ main{
     height: inherit;
     padding: 0;
     overflow-y: auto;
+}
+#mapa-orden{
+    width: 100vw;
+    height: 50vh;
 }

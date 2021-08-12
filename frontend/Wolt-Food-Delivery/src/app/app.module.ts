@@ -35,7 +35,7 @@ import { DefaultGuard } from './default.guard';
     NgbModule,
     FontAwesomeModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   providers: [IsLoggedInService,LogInGuardGuard, DefaultGuard],
   bootstrap: [AppComponent]

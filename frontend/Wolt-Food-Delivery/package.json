@@ -24,8 +24,12 @@
     "@fortawesome/free-brands-svg-icons": "^5.15.3",
     "@fortawesome/free-regular-svg-icons": "^5.15.3",
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
+    "@mapbox/mapbox-gl-geocoder": "^4.7.2",
     "@ng-bootstrap/ng-bootstrap": "^10.0.0",
+    "@tomtom-international/web-sdk-maps": "^6.15.0",
+    "@types/mapbox__mapbox-gl-geocoder": "^4.7.1",
     "bootstrap": "^5.0.2",
+    "mapbox-gl": "^2.4.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
     "zone.js": "~0.11.4"
