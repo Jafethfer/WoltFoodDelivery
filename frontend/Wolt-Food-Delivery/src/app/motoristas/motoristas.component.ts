@@ -1,18 +1,21 @@
+declare var require:any
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { faDoorOpen, faUser, faList, faBoxOpen, faPaw, faGlassCheers, faShoppingBasket, faPizzaSlice, faExclamationTriangle, faBars, faHeartbeat } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as mapboxgl from 'mapbox-gl';
+import { IsLoggedInService } from '../is-logged-in.service';
 import { environment } from 'src/environments/environment';
-import * as MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
-import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
-
+import { Router } from '@angular/router';
+const mbxGeocode = require('@mapbox/mapbox-sdk/services/geocoding');
+const geocodingClient = mbxGeocode({accessToken: environment.mapboxKey})
 @Component({
   selector: 'app-motoristas',
   templateUrl: './motoristas.component.html',
   styleUrls: ['./motoristas.component.css']
 })
 export class MotoristasComponent implements OnInit {
+  
   currentUser:any
   pedidosOrdenes:Array<any> = []
   mascotasOrdenes:Array<any> = []
@@ -76,23 +79,31 @@ export class MotoristasComponent implements OnInit {
     const map = new mapboxgl.Map({
       container: 'mapa-orden', // container ID
       style: 'mapbox://styles/mapbox/streets-v11', // style URL
-      center: [-86.792771,15.780129], // starting position
+      center: [this.currentOrder.long,this.currentOrder.lat], // starting position
       zoom: 14 // starting zoom
     });
+    const marker = new mapboxgl.Marker()
+    .setLngLat([this.currentOrder.long,this.currentOrder.lat])
+    .addTo(map);
 
     map.on('click', this.add_marker);
   }
 
-  add_marker (event:any) {
+  add_marker(event:any) {
     var coordinates = event.lngLat;
-    const geocoder = new MapboxGeocoder({
-      accessToken: environment.mapboxKey,
-      mapboxgl: (mapboxgl as any),
-      reverseGeocode: true
-    })
-    geocoder.query('-86.792771,15.780129')
     console.log('Lng:', coordinates.lng, 'Lat:', coordinates.lat);
-    this.marker.setLngLat(coordinates).addTo(this.mapa);
+    geocodingClient.reverseGeocode({
+      query: [coordinates.lng, coordinates.lat],
+      types: ['locality']
+    })
+      .send()
+      .then((response:any)=> {
+        // GeoJSON document with geocoding matches
+        const match = response.body;
+        console.log(match.features[0].place_name)
+      });
+    
+    /*this.marker.setLngLat(coordinates).addTo(this.mapa);*/
   }
 
   mostrarOrdenes(tipoOrden:String){
@@ -141,7 +152,7 @@ export class MotoristasComponent implements OnInit {
     }
   }
   
-  constructor(private httpClient: HttpClient, private modalService: NgbModal) { }
+  constructor(private httpClient: HttpClient, private modalService: NgbModal,private loggedin: IsLoggedInService,private router:Router) { }
 
   ngOnInit(): void {
     this.currentUser=history.state
@@ -149,6 +160,12 @@ export class MotoristasComponent implements OnInit {
     this.getOrders();
 
     
+  }
+
+  signOut(){
+    this.loggedin.loggedIn=false
+    this.loggedin.role=''
+    this.router.navigate([''])
   }
 
   collapseSideBar(){

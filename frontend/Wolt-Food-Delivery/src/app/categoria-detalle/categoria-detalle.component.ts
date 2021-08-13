@@ -57,6 +57,7 @@ export class CategoriaDetalleComponent implements OnInit {
       let nuevaOrden = {
         productoId: producto.id,
         nombreProducto: producto.nombreProducto,
+        tipoProducto: this.categoryInfo.nombreCategoria,
         nombreEmpresa: this.currentCompany,
         cantidad: this.pedirProductoForm.get('cantidad')?.value,
         precio: this.pedirProductoForm.get('cantidad')?.value*producto.precio,

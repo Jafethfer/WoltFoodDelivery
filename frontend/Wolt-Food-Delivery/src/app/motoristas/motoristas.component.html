@@ -15,7 +15,7 @@
             <button type="button" class="btn">
                 <fa-icon [icon]="faUser"></fa-icon>
             </button>
-            <button type="button" class="btn">
+            <button type="button" class="btn" (click)="signOut()">
                 <fa-icon [icon]="faDoor"></fa-icon>
             </button>
         </form>
@@ -88,7 +88,12 @@
                 <div *ngIf="restaurantesView">
                     <app-ordenes *ngFor="let order of restaurantesOrdenes" [order]="order" (mostrarDetallePedido)="PedidoModal($event)"></app-ordenes>
                 </div>
-                
+                <div *ngIf="farmaciasView">
+                    <app-ordenes *ngFor="let order of farmaciasOrdenes" [order]="order" (mostrarDetallePedido)="PedidoModal($event)"></app-ordenes>
+                </div>
+                <div *ngIf="superView">
+                    <app-ordenes *ngFor="let order of superOrdenes" [order]="order" (mostrarDetallePedido)="PedidoModal($event)"></app-ordenes>
+                </div>
             </div>
             
         </main>
@@ -110,32 +115,35 @@
                         <img src="../../assets/img/productos/producto.jpg" alt="..." style="float: left;width: 100%;">
                     </div>
                     <div class="col">
-                        Restaurante:
+                        Restaurante:<br>
                         <input type="text" [value]="currentOrder.nombreEmpresa" readonly style="margin-bottom: 8px;">
-                        Producto:
+                        Producto:<br>
                         <input type="text" [value]="currentOrder.nombreProducto" readonly style="margin-bottom: 8px;">
-                        Cantidad: 
+                        Cantidad:<br> 
                         <input type="text" [value]="currentOrder.cantidad" readonly>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-6">
-                        Id del pedido:
+                        Id del pedido:<br>
                         <input [value]="currentOrder.id" type="text" readonly>
                     </div>
                     <div class="col-6">
-                        Cliente:
-                        <input [value]="currentOrder.cliente" readonly>
+                        Cliente:<br>
+                        <input type="text" [value]="currentOrder.cliente" readonly>
                     </div>
                 </div>
                 <div class="row mb-3">
                     <div class="col-6">
-                        Numero del cliente:
-                        <input [value]="currentOrder.phoneCliente" readonly>
+                        Numero del cliente:<br>
+                        <input type="text" [value]="currentOrder.phoneCliente" readonly>
                     </div>
                     <div class="col-6">
-                        Precio Final:
-                        <input [value]="currentOrder.precio" readonly>
+                        Precio Final:<br>
+                        <div class="input-group">
+                            <div class="input-group-text">Lps.</div>
+                            <input type="text" class="form-control" [value]="currentOrder.precio" readonly>
+                        </div>
                     </div>
                 </div>
                 <div class="row">

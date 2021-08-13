@@ -30,3 +30,7 @@ fa-icon{
 .modalPedido{
     font-family: 'Candal';
 }
+#mapa_direccion{
+    width:100vw;
+    height: 50vh;
+}

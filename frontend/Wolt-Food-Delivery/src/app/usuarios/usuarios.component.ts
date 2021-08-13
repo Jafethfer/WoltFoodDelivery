@@ -1,3 +1,4 @@
+declare var require:any
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { faUser, faDoorOpen, faList } from '@fortawesome/free-solid-svg-icons';
 import { CategoriasComponent } from '../categorias/categorias.component';
@@ -7,6 +8,10 @@ import { ActivatedRoute } from '@angular/router';
 import { IsLoggedInService } from '../is-logged-in.service';
 import { Router } from '@angular/router';
 import { identifierModuleUrl } from '@angular/compiler';
+import * as mapboxgl from 'mapbox-gl';
+import { environment } from 'src/environments/environment';
+const mbxGeocode = require('@mapbox/mapbox-sdk/services/geocoding');
+const geocodingClient = mbxGeocode({accessToken: environment.mapboxKey})
 
 @Component({
   selector: 'app-usuarios',
@@ -19,8 +24,10 @@ export class UsuariosComponent implements OnInit {
   faUser = faUser
   faDoor = faDoorOpen
   faList = faList
+  currentDirection:any
   @ViewChild('categoryCards') CardsContainer!:ElementRef;
   @ViewChild('PedidosModal') PedidosModal:any
+  @ViewChild('DireccionModal') DireccionModal:any
   categoryInfo: any
   viewCategory: Boolean = false
 
@@ -33,6 +40,37 @@ export class UsuariosComponent implements OnInit {
     this.CardsContainer.nativeElement.style.display='none'
   }
 
+  OpenDireccionModal(){
+    const add_marker = (event:any) => {
+      var coordinates = event.lngLat;
+      this.currentDirection = {lng: coordinates.lng, lat: coordinates.lat, place_name: ''}
+      console.log('Lng:', coordinates.lng, 'Lat:', coordinates.lat);
+      geocodingClient.reverseGeocode({
+        query: [coordinates.lng, coordinates.lat],
+        types: ['locality']
+      })
+        .send()
+        .then((response:any)=> {
+          // GeoJSON document with geocoding matches
+          const match = response.body;
+          this.currentDirection.place_name = match.features[0].place_name
+          const marker = new mapboxgl.Marker()
+          .setLngLat([this.currentDirection.lng,this.currentDirection.lat])
+          .addTo(map);
+        });
+    }
+
+    this.ModalService.open(this.DireccionModal);
+    (mapboxgl as any).accessToken = environment.mapboxKey
+      var map = new mapboxgl.Map({
+        container: 'mapa_direccion', // container ID
+        style: 'mapbox://styles/mapbox/streets-v11', // style URL
+        center: [-86.793220,15.777040], // starting position
+        zoom: 14 // starting zoom
+      });
+      map.on('click', add_marker);
+  }
+  
   CerrarDetalleCategoria(actuar: any){
     this.viewCategory=false
     this.CardsContainer.nativeElement.style.display='block'
@@ -45,12 +83,16 @@ export class UsuariosComponent implements OnInit {
       usuarioId: this.currentUser.id,
       productoId: nuevaOrden.productoId,
       nombreProducto: nuevaOrden.nombreProducto,
+      tipoProducto: nuevaOrden.tipoProducto,
       nombreEmpresa: nuevaOrden.nombreEmpresa,
       cantidad: nuevaOrden.cantidad,
       precio: nuevaOrden.precio,
       estado: 'Procesando',
       motoristaId: 3,
-      nombreMotorista: 'Luis Fernando'
+      nombreMotorista: 'Luis Fernando',
+      place_name: this.currentDirection.place_name,
+      lat: this.currentDirection.lat,
+      lng: this.currentDirection.lng
     })
     .subscribe(results=>{
       console.log(results)
@@ -64,10 +106,14 @@ export class UsuariosComponent implements OnInit {
         phoneCliente: this.currentUser.phone,
         productoId: nuevaOrden.productoId,
         nombreProducto: nuevaOrden.nombreProducto,
+        tipoProducto: nuevaOrden.tipoProducto,
         nombreEmpresa: nuevaOrden.nombreEmpresa,
         cantidad: nuevaOrden.cantidad,
         precio: nuevaOrden.precio,
-        estado: "Procesando"
+        estado: "Procesando",
+        place_name: this.currentDirection.place_name,
+        lat: this.currentDirection.lat,
+        long: this.currentDirection.lng
       })
       .subscribe(results=>{
         console.log(results)
