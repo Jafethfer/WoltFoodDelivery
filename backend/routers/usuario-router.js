@@ -18,11 +18,15 @@ router.post('/agregarOrden',function(req,res){
             usuarioId: req.body.usuarioId,
             productoId: req.body.productoId,
             nombreProducto: req.body.nombreProducto,
+            nombreEmpresa: req.body.nombreEmpresa,
             cantidad: req.body.cantidad,
             precio: req.body.precio,
             estado: req.body.estado,
             motoristaId: req.body.motoristaId,
-            nombreMotorista: req.body.nombreMotorista
+            nombreMotorista: req.body.nombreMotorista,
+            place_name: req.body.place_name,
+            lat: req.body.lat,
+            long: req.body.lng
         }}
     })
     .then(result=>{

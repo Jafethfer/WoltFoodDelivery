@@ -17,11 +17,17 @@ router.post('/agregarOrden',function(req,res){
             id: req.body.id,
             clienteId: req.body.clienteId,
             cliente: req.body.cliente,
+            phoneCliente: req.body.phoneCliente,
             productoId: req.body.productoId,
             nombreProducto: req.body.nombreProducto,
+            tipoProducto: req.body.tipoProducto,
+            nombreEmpresa: req.body.nombreEmpresa,
             cantidad: req.body.cantidad,
             precio: req.body.precio,
             estado: req.body.estado,
+            place_name: req.body.place_name,
+            lat: req.body.lat,
+            long: req.body.long
         }}
     })
     .then(result=>{
