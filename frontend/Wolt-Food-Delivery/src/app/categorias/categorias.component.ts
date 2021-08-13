@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Output, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
@@ -12,11 +12,17 @@ import { HttpClient } from '@angular/common/http';
 export class CategoriasComponent implements OnInit{
   
   categorias:any
+  @Input() currentDirection:any
 
   @Output() CategoryDescriptionEvent = new EventEmitter<any>()
 
   categoryDetalle(categoryInfo: any){
-    this.CategoryDescriptionEvent.emit(categoryInfo)
+    if(this.currentDirection){
+      this.CategoryDescriptionEvent.emit(categoryInfo)
+    }else{
+      alert('Debes elegir una direccion antes de comenzar a ordenar!')
+    }
+    
   }
 
   constructor(private httpClient: HttpClient) { 

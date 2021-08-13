@@ -106,6 +106,31 @@ export class MotoristasComponent implements OnInit {
     /*this.marker.setLngLat(coordinates).addTo(this.mapa);*/
   }
 
+  updateStatus(){
+    this.httpClient.post('http://localhost:3000/motorista/updateStatus',
+    {
+      id: this.currentOrder.id,
+      currentStatus: this.currentOrder.estado,
+    })
+    .subscribe((results:any)=>{
+      if(this.currentOrder.tipoProducto=="Restaurantes"){
+        this.restaurantesOrdenes = []
+      }else if(this.currentOrder.tipoProducto=="Farmacias"){
+        this.farmaciasOrdenes = []
+      }else if(this.currentOrder.tipoProducto=="Mandados"){
+        this.pedidosOrdenes = []
+      }else if(this.currentOrder.tipoProducto=="Mascotas"){
+        this.mascotasOrdenes = []
+      }else if(this.currentOrder.tipoProducto=="Super"){
+        this.superOrdenes = []
+      }else if(this.currentOrder.tipoProducto=="Bebidas"){
+        this.bebidasOrdenes = []
+      }
+      this.getOrders()
+      alert('Estado actualizado!')
+    })
+  }
+
   mostrarOrdenes(tipoOrden:String){
     if(tipoOrden=="Mandaditos"){
       this.pedidosView=true

@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { identifierModuleUrl } from '@angular/compiler';
 import * as mapboxgl from 'mapbox-gl';
 import { environment } from 'src/environments/environment';
+import { resolve } from '@angular/compiler-cli/src/ngtsc/file_system';
 const mbxGeocode = require('@mapbox/mapbox-sdk/services/geocoding');
 const geocodingClient = mbxGeocode({accessToken: environment.mapboxKey})
 
@@ -25,9 +26,11 @@ export class UsuariosComponent implements OnInit {
   faDoor = faDoorOpen
   faList = faList
   currentDirection:any
+  currentPedido:any
   @ViewChild('categoryCards') CardsContainer!:ElementRef;
   @ViewChild('PedidosModal') PedidosModal:any
   @ViewChild('DireccionModal') DireccionModal:any
+  @ViewChild('DetallePedidoModal') DetallePedidoModal:any
   categoryInfo: any
   viewCategory: Boolean = false
 
@@ -38,6 +41,26 @@ export class UsuariosComponent implements OnInit {
     this.categoryInfo = categoryInfo
     this.viewCategory = true
     this.CardsContainer.nativeElement.style.display='none'
+  }
+
+  OpenDetallePedidoModal(pedido:any){
+    if(pedido.estado=="Procesando") {
+      alert('Tu pedido se esta procesando, gracias por tu comprension')
+    }
+    else{
+      this.currentPedido = pedido
+      this.ModalService.open(this.DetallePedidoModal, {size: 'lg',centered:true});
+      (mapboxgl as any).accessToken = environment.mapboxKey
+      var map = new mapboxgl.Map({
+        container: 'mapa_pedido', // container ID
+        style: 'mapbox://styles/mapbox/streets-v11', // style URL
+        center: [this.currentPedido.long,this.currentPedido.lat], // starting position
+        zoom: 14 // starting zoom
+      })
+      var marker = new mapboxgl.Marker()
+          .setLngLat([this.currentPedido.long,this.currentPedido.lat])
+          .addTo(map);
+    }
   }
 
   OpenDireccionModal(){
@@ -77,48 +100,78 @@ export class UsuariosComponent implements OnInit {
   }
 
   CrearNuevaOrden(nuevaOrden:any){
-    this.httpClient.post('http://localhost:3000/usuario/agregarOrden',
-    {
-      id: this.currentUser.phone+"-"+(parseInt(this.pedidos[this.pedidos.length-1].id.charAt(this.pedidos[this.pedidos.length-1].id.length-1))+1),
-      usuarioId: this.currentUser.id,
-      productoId: nuevaOrden.productoId,
-      nombreProducto: nuevaOrden.nombreProducto,
-      tipoProducto: nuevaOrden.tipoProducto,
-      nombreEmpresa: nuevaOrden.nombreEmpresa,
-      cantidad: nuevaOrden.cantidad,
-      precio: nuevaOrden.precio,
-      estado: 'Procesando',
-      motoristaId: 3,
-      nombreMotorista: 'Luis Fernando',
-      place_name: this.currentDirection.place_name,
-      lat: this.currentDirection.lat,
-      lng: this.currentDirection.lng
+    var promise = new Promise((resolve,reject)=>{
+      if(this.pedidos.length==0){
+        resolve(1)
+      }else{
+        resolve(parseInt(this.pedidos[this.pedidos.length-1].id.charAt(this.pedidos[this.pedidos.length-1].id.length-1))+1)
+      }
     })
-    .subscribe(results=>{
-      console.log(results)
-      this.getOrders()
-      this.httpClient.post('http://localhost:3000/motorista/agregarOrden',
+    .then((nextId:any)=>{
+      this.httpClient.post('http://localhost:3000/usuario/agregarOrden',
       {
-        motoristaId: 1,
-        id: this.currentUser.phone+"-"+(parseInt(this.pedidos[this.pedidos.length-1].id.charAt(this.pedidos[this.pedidos.length-1].id.length-1))+1),
-        clienteId: this.currentUser.id,
-        cliente: this.currentUser.firstName+" "+this.currentUser.lastName,
-        phoneCliente: this.currentUser.phone,
+        id: this.currentUser.phone+"-"+nextId,
+        usuarioId: this.currentUser.id,
         productoId: nuevaOrden.productoId,
         nombreProducto: nuevaOrden.nombreProducto,
         tipoProducto: nuevaOrden.tipoProducto,
         nombreEmpresa: nuevaOrden.nombreEmpresa,
         cantidad: nuevaOrden.cantidad,
         precio: nuevaOrden.precio,
-        estado: "Procesando",
+        estado: 'Procesando',
         place_name: this.currentDirection.place_name,
         lat: this.currentDirection.lat,
-        long: this.currentDirection.lng
+        lng: this.currentDirection.lng
       })
       .subscribe(results=>{
         console.log(results)
+        this.getOrders()
+        this.httpClient.post('http://localhost:3000/motorista/agregarOrden',
+        {
+          id: this.currentUser.phone+"-"+nextId,
+          clienteId: this.currentUser.id,
+          cliente: this.currentUser.firstName+" "+this.currentUser.lastName,
+          phoneCliente: this.currentUser.phone,
+          productoId: nuevaOrden.productoId,
+          nombreProducto: nuevaOrden.nombreProducto,
+          tipoProducto: nuevaOrden.tipoProducto,
+          nombreEmpresa: nuevaOrden.nombreEmpresa,
+          cantidad: nuevaOrden.cantidad,
+          precio: nuevaOrden.precio,
+          estado: "Procesando",
+          place_name: this.currentDirection.place_name,
+          lat: this.currentDirection.lat,
+          long: this.currentDirection.lng
+        })
+        .subscribe(results=>{
+          console.log(results)
+        })
       })
     })
+    
+  }
+
+  cancelarPedido(){
+    if(confirm('Estas seguro que deseas cancelar la orden?')){
+      if(this.currentPedido.estado!='Procesando'){
+        alert('No puedes cancelar ordenes que ya estan en camino!')
+      }else{
+        console.log(this.currentPedido.id)
+        this.httpClient.post('http://localhost:3000/usuario/cancelarOrden',
+        {
+          usuarioId: this.currentUser.id,
+          id: this.currentPedido.id
+        })
+        .subscribe((results:any)=>{
+          console.log(results)
+          this.getOrders()
+          this.ModalService.dismissAll()
+          confirm('Orden cancelada!')
+        })
+      }
+    }else{
+      return;
+    }
   }
 
   signOut(){
@@ -128,6 +181,7 @@ export class UsuariosComponent implements OnInit {
   }
 
   showOrders(){
+    this.getOrders()
     this.ModalService.open(this.PedidosModal,{size: 'lg'})
   }
 
@@ -143,6 +197,7 @@ export class UsuariosComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentUser=history.state
+    this.currentUser.fullName = this.currentUser.firstName+" "+this.currentUser.lastName
     this.getOrders()
   }
 
