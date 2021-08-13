@@ -42,6 +42,7 @@ app.post('/login',function(req,res){
             res.send(usuario)
         }
     })
+
 })
 
 app.listen(3000, ()=>{

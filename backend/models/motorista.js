@@ -25,7 +25,8 @@ var motoristaSchema = new mongoose.Schema({
     email: String,
     password: String,
     role: String,
-    pedidos: [pedidoSchema]
+    pedidos: [pedidoSchema],
+    status: String
 })
 
 module.exports = mongoose.model('motoristas',motoristaSchema)
