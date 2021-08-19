@@ -25,7 +25,7 @@
         <div class="container">
             <div class="row">
                     <div *ngFor="let producto of productos" class="card col-lg-6 col-md-6 col-sm-12 p-0 my-2">
-                        <img src="../../assets/img/productos/producto.jpg" class="card-img-top" alt="...">
+                        <img [src]="producto.imagen" class="card-img-top" alt="...">
                     <div class="card-body">
                         <p class="card-text">{{producto.nombreProducto}}
                             <span style="float: right;">
@@ -61,7 +61,7 @@
                     Este campo no debe quedar vacio
                 </div>
             </div>
-            
+
             <label for="pagoSelect">Forma de pago: </label>
             <select class="form-control" id="pagoSelect" formControlName="pago" required>
                 <option selected>Efectivo</option>
