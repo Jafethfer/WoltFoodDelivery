@@ -47,6 +47,43 @@ app.post('/login',function(req,res){
 
 })
 
+app.post('/signUp',function(req,res){
+    var promise = getNewId()
+    promise.then(value=>{
+        let newUser = new usuario({
+            id: value,
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            phone: req.body.phone,
+            email: req.body.email,
+            password: req.body.password,
+            role: 'Cliente',
+            pedidos: []
+        })
+        newUser.save(function(err,doc){
+            if(err) res.send(err)
+            res.send(true)
+        })
+    })   
+})
+
+function getNewId(){
+    return new Promise(function(resolve,reject){
+        usuario.find({},"id -_id")
+        .then(results=>{
+            if(results.length==0){
+                resolve(1)
+            }else if(results.length>0){
+                let lastId = results[results.length-1].id
+                let newId = parseInt(lastId)+1
+                return resolve(newId)
+            }else{
+                return reject()
+            }
+        })
+    })
+}
+
 app.listen(3000, ()=>{
     console.log('Servidor del backend levantado en 3000');
 });
