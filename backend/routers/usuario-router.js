@@ -49,7 +49,10 @@ router.post('/cancelarOrden',function(req,res){
                 "status": "free"
             }
         })
-        res.send(val)
+        .then(results=>{
+            res.send(results)
+        })
+        
     })
 })
 
