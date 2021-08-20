@@ -3,7 +3,8 @@ var mongoose = require('mongoose')
 var productoSchema = new mongoose.Schema({
     id: String,
     nombreProducto: String,
-    precio: Number
+    precio: Number,
+    imagen: String
 })
 
 var empresaSchema = new mongoose.Schema({
