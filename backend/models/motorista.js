@@ -23,6 +23,7 @@ var motoristaSchema = new mongoose.Schema({
     lastName: String,
     phone: String,
     email: String,
+    imagen: String,
     password: String,
     role: String,
     pedidos: [pedidoSchema],

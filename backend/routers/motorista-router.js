@@ -97,13 +97,13 @@ router.post('/updateStatus',function(req,res){
             })
         })
     }
-    else if(req.body.currentStatus=="En camino"){
+    else if(req.body.currentStatus=="En destino"){
         motorista.updateOne({"pedidos.id":req.body.id},
         {
             $set: {
-               "pedidos.$.estado": "Completado" 
+               "pedidos.$.estado": "Completado", 
+               "status": "free"
             }
-           
         })
         .then(results=>{
             usuario.updateOne({"pedidos.id":req.body.id},
