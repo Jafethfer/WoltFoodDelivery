@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { IsLoggedInService } from '../is-logged-in.service';
 
 @Component({
   selector: 'app-login-form',
@@ -16,13 +19,38 @@ export class LoginFormComponent implements OnInit {
   get email(){return this.loginForm.get('email')}
   get password(){return this.loginForm.get('password')}
 
-  checkLogin(){
-    
-  }
-
-  constructor() { }
+  constructor(private httpClient: HttpClient, private router: Router, private loginService: IsLoggedInService) { }
 
   ngOnInit(): void {
+  }
+
+  checkLogin(){
+    this.httpClient.post('http://localhost:3000/login',
+    {
+      email: this.email?.value,
+      password: this.password?.value
+    })
+    .subscribe((results:any)=>{
+      if(results==false){
+        alert('Usuario o contrasena incorrectos')
+      }else{
+        if(results.role=="Cliente"){
+          this.loginService.loggedIn=true
+          this.loginService.role="Cliente"
+          this.router.navigateByUrl('usuarios',{state: results})
+        }else if(results.role=="Motorista"){
+          this.loginService.loggedIn=true
+          this.loginService.role="Motorista"
+          this.router.navigateByUrl('motorista',{state: results})
+        }else if(results.role=="Administrador"){
+          this.loginService.loggedIn=true
+          this.loginService.role="Administrador"
+          this.router.navigateByUrl('administrador',{state: results})
+        }else{
+          alert('Error de roles, contacte al servicio tecnico')
+        }
+      }
+    })
   }
 
 }

@@ -6,30 +6,38 @@ import { SignupFormComponent } from './signup-form/signup-form.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { AdministradoresComponent } from './administradores/administradores.component';
 import { MotoristasComponent } from './motoristas/motoristas.component';
+import { LogInGuardGuard } from './log-in-guard.guard';
+import { DefaultGuard } from './default.guard';
 
 const routes:Routes = [
   {
-    path: 'login', 
+    path: 'login',
+    canActivate: [DefaultGuard],
     component: LoginFormComponent
   },
   {
     path: 'signup',
+    canActivate: [DefaultGuard],
     component: SignupFormComponent
   },
   {
     path: '',
-    component: LandingPageComponent
+    canActivate: [DefaultGuard],
+    component: LandingPageComponent,
   },
   {
     path: 'usuarios',
+    canActivate:[LogInGuardGuard],
     component: UsuariosComponent
   },
   {
     path: 'administrador',
+    canActivate:[LogInGuardGuard],
     component: AdministradoresComponent
   },
   {
     path: 'motorista',
+    canActivate:[LogInGuardGuard],
     component: MotoristasComponent
   }
 ]

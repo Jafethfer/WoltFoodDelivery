@@ -15,7 +15,7 @@
             <button type="button" class="btn">
                 <fa-icon [icon]="faUser"></fa-icon>
             </button>
-            <button type="button" class="btn">
+            <button type="button" class="btn" (click)="signOut()">
                 <fa-icon [icon]="faDoor"></fa-icon>
             </button>
         </form>
@@ -26,7 +26,7 @@
     <nav class="nav" #adminUtils>
         <ul class="nav flex-column">
             <li class="nav-item text-center" style="margin-top:10px">
-                <button class="btn util-btn" type="button">
+                <button class="btn util-btn" type="button" (click)="Resumen()">
                     <div style="padding:0 10px 0 10px">
                         <fa-icon [icon]="faChartBar"></fa-icon>
                         <span class="btn-label">  Resumen</span>
@@ -34,25 +34,25 @@
                 </button>
             </li>
             <li class="nav-item text-center">
-                <button class="btn util-btn" type="button">
+                <button class="btn util-btn" type="button" (click)="Motoristas()">
                     <fa-icon [icon]="faUserAstronaut"></fa-icon>
                     <span class="btn-label">  Motoristas</span>
                 </button>
             </li>
             <li class="nav-item text-center">
-                <button class="btn util-btn" type="button">
+                <button class="btn util-btn" type="button" (click)="Categorias()">
                     <fa-icon [icon]="faBars"></fa-icon>
                     <span class="btn-label">  Categorias</span>
                 </button>
             </li>
             <li class="nav-item text-center">
-                <button class="btn util-btn" type="button">
+                <button class="btn util-btn" type="button" (click)="Ordenes()">
                     <fa-icon [icon]="faClipboardList"></fa-icon>
                     <span class="btn-label">  Ordenes</span>
                 </button>
             </li>
             <li class="nav-item text-center">
-                <button class="btn util-btn" type="button">
+                <button class="btn util-btn" type="button" (click)="Empresas()">
                     <fa-icon [icon]="faUtensils"></fa-icon>
                     <span class="btn-label">  Empresas</span>
                 </button>
@@ -72,6 +72,175 @@
           </ul>
     </nav>
     <main>
-        <img src="../../assets/img/admin/dashboard.png" style="max-width: 100%;">
+      <div class="container-fluid">
+        <div *ngIf="viewResumen" class="row">
+          <div class="col-6">
+            <canvas #barChart></canvas>
+          </div>
+          <div class="col-6">
+            <canvas #pieChart></canvas>
+          </div>
+        </div>
+        <div *ngIf="viewMotoristas">
+          <div class="d-flex justify-content-end my-2">
+            <button type="button" class="btn btn-primary" (click)="NuevoEmpleadoModal()">Agregar Motorista</button>
+          </div>
+          <div class="row p-2">
+            <div *ngFor="let motorista of motoristas" class="card col-sm-6 col-md-4 col-lg-3">
+              <img class="card-img-top" [src]="motorista.imagen" alt="Card image cap">
+              <div class="card-body">
+                <h5 class="card-title">{{motorista.firstName}} {{motorista.lastName}}</h5>
+                <p class="card-text">
+                  Numero:<br> {{motorista.phone}}<br>
+                  Email:<br> {{motorista.email}}<br>
+                </p>
+                <button type="button" class="btn btn-primary" (click)="fireEmployee(motorista)">Despedir</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="viewCategorias" class="row">
+          <div class="d-flex justify-content-end my-2">
+            <button type="button" class="btn btn-primary" (click)="AgregarCategoriaModal()">Agregar Categoria</button>
+          </div>
+          <div *ngFor="let categoria of categorias" class="card bg-dark col-sm-6 col-md-6 col-lg-4 p-0 my-2" [style.background-color]="categoria.color">
+            <img [src]="categoria.imagen" class="card-img" alt="...">
+            <div class="card-img-overlay">
+              <div [style.color]="categoria.font" [style.text-shadow]="categoria.shadow">
+                <h5 class="card-title">{{categoria.nombreCategoria}}</h5>
+                <p class="card-text">{{categoria.descripcion}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="viewEmpresas" class="row">
+          <div class="d-flex justify-content-end my-2">
+            <select [(ngModel)]="empresasSelectOption" class="form-select" (change)="filterCategoria()">
+              <option value=0 selected>Todos</option>
+              <option *ngFor="let categoria of categorias" [value]="categoria.id">{{categoria.nombreCategoria}}</option>
+            </select>
+            <button type="button" class="btn btn-primary" (click)="AgregarEmpresaModal()">Agregar Empresa</button>
+          </div>
+          <div *ngFor="let empresa of currentEmpresas" class="card bg-dark col-sm-6 col-md-6 col-lg-4 p-0 my-2">
+            <img [src]="empresa.banner" class="card-img" alt="...">
+            <div class="card-img-overlay">
+              <div>
+                <h5 class="card-title">{{empresa.nombreEmpresa}}</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
 </div>
+
+<ng-template #NuevoEmpleado let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Agrega un motorista</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="newEmployeeForm">
+      Nombre:
+      <input type="text" class="form-control" formControlName="firstName">
+      <div *ngIf="newEmployeeForm.invalid">
+        <div *ngIf="getFirstName()?.errors?.required && getFirstName()?.touched" style="color: red;">
+            Este campo no debe quedar vacio
+        </div>
+    </div>
+      Apellido:
+      <input type="text" class="form-control" formControlName="lastName">
+      <div *ngIf="getLastName()?.errors?.required && getLastName()?.touched" style="color: red;">
+        Este campo no debe quedar vacio
+      </div>
+      Telefono:
+      <input type="text" class="form-control" formControlName="phone">
+      <div *ngIf="getPhone()?.errors?.required && getPhone()?.touched" style="color: red;">
+        Este campo no debe quedar vacio
+      </div>
+      Correo:
+      <input type="text" class="form-control" formControlName="email" pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$">
+      <div *ngIf="getEmail()?.errors?.required && getEmail()?.touched" style="color: red;">
+        Este campo no debe quedar vacio
+      </div>
+      <div *ngIf="getEmail()?.errors?.pattern && getPassword()?.touched" style="color: red;">
+        El email es invalido, revise de nuevo.
+      </div>
+      Contraseña:
+      <input type="password" class="form-control" formControlName="password">
+      <div *ngIf="getPassword()?.errors?.required && getPassword()?.touched" style="color: red;">
+        Este campo no debe quedar vacio
+      </div>
+
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+    <button type="button" class="btn btn-primary" (click)="AgregarEmpleado()">Guardar</button>
+  </div>
+</ng-template>
+
+<ng-template #AgregarCategoria let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Agrega una categoria</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="newCategoriaForm">
+      Nombre de la categoria:
+      <input type="text" class="form-control" formControlName="nombreCategoria">
+      <div *ngIf="newCategoriaForm.get('nombreCategoria')?.errors?.required && newCategoriaForm.get('nombreCategoria')?.touched" style="color: red;">
+        Este campo no debe quedar vacio
+      </div>
+      Descripcion:
+      <textarea type="text" class="form-control" rows="3"></textarea>
+      <div *ngIf="newCategoriaForm.get('descripcion')?.errors?.required && newCategoriaForm.get('descripcion')?.touched" style="color: red;">
+        Este campo no debe quedar vacio
+      </div>
+      Color de la letra:
+      <input type="text" class="form-control" formControlName="font">
+      <div *ngIf="newCategoriaForm.get('font')?.errors?.required && newCategoriaForm.get('font')?.touched" style="color: red;">
+        Este campo no debe quedar vacio
+      </div>
+      Color de la sombra de la letra:
+      <input type="text" class="form-control" formControlName="shadow">
+      <div *ngIf="newCategoriaForm.get('shadow')?.errors?.required && newCategoriaForm.get('shadow')?.touched" style="color: red;">
+        Este campo no debe quedar vacio
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+    <button type="button" class="btn btn-primary" (click)="GuardarCategoria()">Guardar</button>
+  </div>
+</ng-template>
+
+<ng-template #AgregarEmpresa let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Agrega una empresa</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="newEmpresaForm">
+      <select formControlName="categoria" class="form-select">
+        <option selected value=0>Elige una categoria</option>
+        <option *ngFor="let categoria of categorias">{{categoria.nombreCategoria}}</option>
+      </select>
+      Nombre de la empresa:
+      <input type="text" class="form-control" formControlName="nombreEmpresa">
+      <div *ngIf="newEmpresaForm.get('nombreEmpresa')?.errors?.required && newEmpresaForm.get('nombreEmpresa')?.touched" style="color: red;">
+        Este campo no debe quedar vacio
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+    <button type="button" class="btn btn-primary" (click)="GuardarNuevaEmpresa()">Guardar</button>
+  </div>
+</ng-template>

@@ -15,7 +15,7 @@
             <button type="button" class="btn">
                 <fa-icon [icon]="faUser"></fa-icon>
             </button>
-            <button type="button" class="btn">
+            <button type="button" class="btn" (click)="signOut()">
                 <fa-icon [icon]="faDoor"></fa-icon>
             </button>
         </form>
@@ -26,33 +26,41 @@
     <nav class="nav" #motoristUtils>
         <ul class="nav flex-column">
             <li class="nav-item text-center" style="margin-top:10px">
-                <button class="btn util-btn" type="button">
+                <button class="btn util-btn" type="button" (click)="mostrarOrdenes('Mandaditos')">
                     <div style="padding:0 10px 0 10px">
                         <fa-icon [icon]="faBoxOpen"></fa-icon>
                         <span class="btn-label">  Pedidos</span>
                     </div>
                 </button>
             </li>
+            <li class="nav-item text-center" style="margin-top:10px">
+                <button class="btn util-btn" type="button" (click)="mostrarOrdenes('Farmacias')">
+                    <div style="padding:0 10px 0 10px">
+                        <fa-icon [icon]="faHeartbeat"></fa-icon>
+                        <span class="btn-label">  Farmacia</span>
+                    </div>
+                </button>
+            </li>
             <li class="nav-item text-center">
-                <button class="btn util-btn" type="button">
+                <button class="btn util-btn" type="button" (click)="mostrarOrdenes('Mascotas')">
                     <fa-icon [icon]="faPaw"></fa-icon>
                     <span class="btn-label">  Mascotas</span>
                 </button>
             </li>
             <li class="nav-item text-center">
-                <button class="btn util-btn" type="button">
+                <button class="btn util-btn" type="button" (click)="mostrarOrdenes('Bebidas')">
                     <fa-icon [icon]="faGlassCheers"></fa-icon>
                     <span class="btn-label">  Bebidas</span>
                 </button>
             </li>
             <li class="nav-item text-center">
-                <button class="btn util-btn" type="button">
+                <button class="btn util-btn" type="button" (click)="mostrarOrdenes('Super')">
                     <fa-icon [icon]="faShoppingBasket"></fa-icon>
                     <span class="btn-label">  Super</span>
                 </button>
             </li>
             <li class="nav-item text-center">
-                <button class="btn util-btn" type="button">
+                <button class="btn util-btn" type="button" (click)="mostrarOrdenes('Restaurantes')">
                     <fa-icon [icon]="faPizzaSlice"></fa-icon>
                     <span class="btn-label">  Restaurantes</span>
                 </button>
@@ -68,9 +76,86 @@
     <main>
         <main>
             <div #orders>
-                <app-ordenes *ngFor="let order of ordenes" [order]="order"></app-ordenes>
+                <div *ngIf="pedidosView">
+                    <app-ordenes *ngFor="let order of pedidosOrdenes" [order]="order" (mostrarDetallePedido)="PedidoModal($event)"></app-ordenes>
+                </div>
+                <div *ngIf="mascotasView">
+                    <app-ordenes *ngFor="let order of mascotasOrdenes" [order]="order" (mostrarDetallePedido)="PedidoModal($event)"></app-ordenes>
+                </div>
+                <div *ngIf="bebidasView">
+                    <app-ordenes  *ngFor="let order of bebidasOrdenes" [order]="order" (mostrarDetallePedido)="PedidoModal($event)"></app-ordenes>
+                </div>
+                <div *ngIf="restaurantesView">
+                    <app-ordenes *ngFor="let order of restaurantesOrdenes" [order]="order" (mostrarDetallePedido)="PedidoModal($event)"></app-ordenes>
+                </div>
+                <div *ngIf="farmaciasView">
+                    <app-ordenes *ngFor="let order of farmaciasOrdenes" [order]="order" (mostrarDetallePedido)="PedidoModal($event)"></app-ordenes>
+                </div>
+                <div *ngIf="superView">
+                    <app-ordenes *ngFor="let order of superOrdenes" [order]="order" (mostrarDetallePedido)="PedidoModal($event)"></app-ordenes>
+                </div>
             </div>
-            
+
         </main>
     </main>
 </div>
+
+<ng-template #PedidosModal let-modal>
+    <div class="modalPedido">
+        <div class="modal-header" style="background-color: cyan;">
+          <h4 class="modal-title text-white">Detalles del pedido {{currentOrder.id}}</h4>
+          <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="container" style="font-family: Candal;">
+                <div class="row mb-3">
+                    <div class="col-7">
+                        <img src="../../assets/img/productos/producto.jpg" alt="..." style="float: left;width: 100%;">
+                    </div>
+                    <div class="col">
+                        Restaurante:<br>
+                        <input type="text" [value]="currentOrder.nombreEmpresa" readonly style="margin-bottom: 8px;">
+                        Producto:<br>
+                        <input type="text" [value]="currentOrder.nombreProducto" readonly style="margin-bottom: 8px;">
+                        Cantidad:<br>
+                        <input type="text" [value]="currentOrder.cantidad" readonly>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        Id del pedido:<br>
+                        <input [value]="currentOrder.id" type="text" readonly>
+                    </div>
+                    <div class="col-6">
+                        Cliente:<br>
+                        <input type="text" [value]="currentOrder.cliente" readonly>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-6">
+                        Numero del cliente:<br>
+                        <input type="text" [value]="currentOrder.phoneCliente" readonly>
+                    </div>
+                    <div class="col-6">
+                        Precio Final:<br>
+                        <div class="input-group">
+                            <div class="input-group-text">Lps.</div>
+                            <input type="text" class="form-control" [value]="currentOrder.precio" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="mapa-orden">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+            <button type="button" class="btn" [disabled]="ButtonUpdateStatus" style="background-color:lime" #PedidoStatus (click)="updateStatus()">Actualizar estado</button>
+        </div>
+    </div>
+</ng-template>

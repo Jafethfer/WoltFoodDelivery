@@ -4,13 +4,13 @@
             <img id="Woltbrand" src="../../assets/img/Landing-page/logo.png">
         </a>
         <form class="d-flex">
-            <button type="button" class="btn">
+            <button type="button" class="btn" (click)="showOrders()">
                 <fa-icon [icon]="faList"></fa-icon>
             </button>
-            <button type="button" class="btn">
+            <button type="button" class="btn" (click)="OpenDireccionModal()">
                 <fa-icon [icon]="faUser"></fa-icon>
             </button>
-            <button type="button" class="btn">
+            <button type="button" class="btn" (click)="signOut()">
                 <fa-icon [icon]="faDoor"></fa-icon>
             </button>
         </form>
@@ -19,10 +19,129 @@
 <hr>
 <main>
     <div class="container" #categoryCards id="categoryCards">
-        <app-categorias (CategoryDescriptionEvent)="OpenDetalleCategory($event)"></app-categorias>
+        <app-categorias [currentDirection]="currentDirection" (CategoryDescriptionEvent)="OpenDetalleCategory($event)"></app-categorias>
     </div>
     <app-categoria-detalle #categoriaDetalle *ngIf="viewCategory" [categoryInfo]="categoryInfo" (goBackEvent)="CerrarDetalleCategoria($event)" (ordenarProducto)="CrearNuevaOrden($event)"></app-categoria-detalle>
 </main>
+
+<ng-template #PedidosModal let-modal>
+    <div class="modalPedido">
+        <div class="modal-header" style="background-color: cyan;">
+          <h4 class="modal-title text-white">{{currentUser.firstName}}, estos son tus pedidos</h4>
+          <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="container">
+                <table style="width:100%">
+                    <tr>
+                        <th>Id</th>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Precio</th>
+                        <th>Estado</th>
+                    </tr>
+                    <tr class="card-body" *ngFor="let pedido of pedidos" style="border-color:black;border-style: dashed;border-width: unset;cursor: pointer;" (click)="OpenDetallePedidoModal(pedido)">
+                        <td>{{pedido.id}}</td>
+                        <td>{{pedido.nombreProducto}}</td>
+                        <td>{{pedido.cantidad}}</td>
+                        <td>{{pedido.precio}}</td>
+                        <td>{{pedido.estado}}</td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #DireccionModal let-modal>
+    <div class="modalPedido">
+        <div class="modal-header" style="background-color: cyan;">
+          <h4 class="modal-title text-white">{{currentUser.firstName}}, elige una direccion</h4>
+          <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="container">
+                <div class="row">
+                    Haz click en el mapa para elegir tu direccion actual
+                </div>
+                <div class="row">
+                    <div #mapa_direccion id="mapa_direccion"></div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #DetallePedidoModal let-modal>
+    <div class="modalPedido">
+        <div class="modal-header" style="background-color: cyan;">
+          <h4 class="modal-title text-white">Detalles del pedido {{currentPedido.id}}</h4>
+          <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="container" style="font-family: Candal;">
+                <div class="row mb-3">
+                    <div class="col-7">
+                        <img src="../../assets/img/productos/producto.jpg" alt="..." style="float: left;width: 100%;">
+                    </div>
+                    <div class="col">
+                        Restaurante:<br>
+                        <input type="text" [value]="currentPedido.nombreEmpresa" readonly style="margin-bottom: 8px;">
+                        Producto:<br>
+                        <input type="text" [value]="currentPedido.nombreProducto" readonly style="margin-bottom: 8px;">
+                        Cantidad:<br> 
+                        <input type="text" [value]="currentPedido.cantidad" readonly>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        Id del pedido:<br>
+                        <input [value]="currentPedido.id" type="text" readonly>
+                    </div>
+                    <div class="col-6">
+                        Motorista:<br>
+                        <input type="text" [value]="currentPedido.nombreMotorista" readonly>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-6">
+                        Numero del cliente:<br>
+                        <input type="text" [value]="currentUser.phone" readonly>
+                    </div>
+                    <div class="col-6">
+                        Precio Final:<br>
+                        <div class="input-group">
+                            <div class="input-group-text">Lps.</div>
+                            <input type="text" class="form-control" [value]="currentPedido.precio" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="mapa_pedido">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+          <button type="button" class="btn" (click)="cancelarPedido()">Cancelar orden</button>
+        </div>
+    </div>
+</ng-template>
 
 
 

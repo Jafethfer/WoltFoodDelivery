@@ -17,13 +17,24 @@ main{
 }
 hr{
     margin: 0;
-  }
+}
 #categoryCards{
     padding-top: 20px;
 }
 #Woltbrand{
     width: 192px;
   }
-  fa-icon{
-      font-size: 30px;
-  }
+fa-icon{
+    font-size: 30px;
+}
+.modalPedido{
+    font-family: 'Candal';
+}
+#mapa_direccion{
+    width:100vw;
+    height: 50vh;
+}
+#mapa_pedido{
+    width:100vw;
+    height: 50vh;
+}

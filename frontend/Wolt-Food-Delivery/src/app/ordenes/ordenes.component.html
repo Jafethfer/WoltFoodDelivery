@@ -1,5 +1,16 @@
-<div class="card">
-    <div class="card-body">
-      {{order.usuario}}
-    </div>
-</div>
+<table style="width:100%">
+  <tr>
+      <th>Id</th>
+      <th>Producto</th>
+      <th>Cantidad</th>
+      <th>Precio</th>
+      <th>Estado</th>
+  </tr>
+  <tr class="card-body" style="border-color:black;border-style: dashed;border-width: unset;cursor: pointer;" (click)="PedidoModal(order)">
+      <td>{{order.id}}</td>
+      <td>{{order.nombreProducto}}</td>
+      <td>{{order.cantidad}}</td>
+      <td>{{order.precio}}</td>
+      <td>{{order.estado}}</td>
+  </tr>
+</table>

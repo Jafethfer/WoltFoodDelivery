@@ -50,3 +50,7 @@ main{
     padding: 0;
     overflow-y: auto;
 }
+#mapa-orden{
+    width: 100vw;
+    height: 50vh;
+}

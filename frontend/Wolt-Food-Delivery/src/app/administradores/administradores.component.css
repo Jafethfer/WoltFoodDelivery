@@ -8,6 +8,7 @@ html{
 body{
     min-width: 100vw;
     min-height: 100vh;
+
 }
 #Woltbrand{
     margin-left: 10px;
@@ -23,6 +24,7 @@ hr{
     height: inherit;
     padding: 0 !important;
     display: flex;
+    font-family: 'Candal';
 }
 .nav{
     width: 20vw;
@@ -42,4 +44,10 @@ hr{
 }
 .nav-collapse .btn-label{
     display: none;
+}
+main{
+  width: 100%;
+  height: inherit;
+  padding: 0;
+  overflow-y: auto;
 }
