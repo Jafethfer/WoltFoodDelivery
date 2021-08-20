@@ -28,49 +28,49 @@
         </div>
         <div class="row py-5">
             <div class="col-9">
-                <form>
+                <form [formGroup]="newUserForm">
                     <div class="row">
                         <div>
-                            Email: <input type="text" class="form-control" placeholder="example@mail.com">
+                            Email: <input type="text" formControlName="email" class="form-control" placeholder="example@mail.com">
                         </div>
                     </div>
                     <div class="row pt-2">
                         <div>
-                            First Name: <input type="text" class="form-control" placeholder="John">
+                            First Name: <input type="text" formControlName="firstName" class="form-control" placeholder="John">
                         </div>
                     </div>
                     <div class="row pt-2">
                         <div>
-                            Last Name: <input type="text" class="form-control" placeholder="Doe">
+                            Last Name: <input type="text" formControlName="lastName" class="form-control" placeholder="Doe">
                         </div>
                     </div>
                     <div class="row pt-2">
                         <div>
-                            Password: <input type="password" class="form-control">
+                            Password: <input type="password" formControlName="password" class="form-control">
                         </div>
                     </div>
                     <div class="row pt-2">
                         <div>
-                            Password Again: <input type="password" class="form-control">
+                            Password Again: <input formControlName="passwordAgain" type="password" class="form-control">
                         </div>
                     </div>
                     <div class="row pt-2">
                         <div class="col-5">
-                            Phone: 
+                            Phone:
                             <select class="form-select">
                                 <option selected>Honduras</option>
-                            </select>   
+                            </select>
                         </div>
                         <div class="col align-self-end">
-                            <input type="text" class="form-control" placeholder="0000-0000">
+                            <input formControlName="phone" type="text" class="form-control" placeholder="0000-0000">
                         </div>
                     </div>
                 </form>
             </div>
-            <button class="col-3 btn text-white" id="signup-btn">
+            <button class="col-3 btn text-white" id="signup-btn" (click)="signUp()">
                 Sign Up
             </button>
-            
+
         </div>
     </div>
 </main>
