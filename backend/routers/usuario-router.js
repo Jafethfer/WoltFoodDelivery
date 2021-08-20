@@ -43,6 +43,12 @@ router.post('/cancelarOrden',function(req,res){
         }
     })
     .then(val=>{
+        motorista.updateOne({"pedidos.id":req.body.id},
+        {
+            $set: {
+                "status": "free"
+            }
+        })
         res.send(val)
     })
 })
