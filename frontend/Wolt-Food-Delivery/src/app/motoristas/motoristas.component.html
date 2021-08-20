@@ -95,7 +95,7 @@
                     <app-ordenes *ngFor="let order of superOrdenes" [order]="order" (mostrarDetallePedido)="PedidoModal($event)"></app-ordenes>
                 </div>
             </div>
-            
+
         </main>
     </main>
 </div>
@@ -119,7 +119,7 @@
                         <input type="text" [value]="currentOrder.nombreEmpresa" readonly style="margin-bottom: 8px;">
                         Producto:<br>
                         <input type="text" [value]="currentOrder.nombreProducto" readonly style="margin-bottom: 8px;">
-                        Cantidad:<br> 
+                        Cantidad:<br>
                         <input type="text" [value]="currentOrder.cantidad" readonly>
                     </div>
                 </div>
@@ -154,8 +154,8 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-light" (click)="updateStatus()">Actualizar estado</button>
             <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+            <button type="button" class="btn" [disabled]="ButtonUpdateStatus" style="background-color:lime" #PedidoStatus (click)="updateStatus()">Actualizar estado</button>
         </div>
     </div>
 </ng-template>

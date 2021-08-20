@@ -15,7 +15,6 @@ const geocodingClient = mbxGeocode({accessToken: environment.mapboxKey})
   styleUrls: ['./motoristas.component.css']
 })
 export class MotoristasComponent implements OnInit {
-  
   currentUser:any
   pedidosOrdenes:Array<any> = []
   mascotasOrdenes:Array<any> = []
@@ -31,6 +30,7 @@ export class MotoristasComponent implements OnInit {
   superView:boolean = false
   restaurantesView:boolean = false
   quejasView:boolean = false
+  ButtonUpdateStatus:boolean = false
   @ViewChild('motoristUtils') motoristUtils!: ElementRef;
   @ViewChild('PedidosModal') pedidosModal:any;
   faUser = faUser
@@ -75,6 +75,7 @@ export class MotoristasComponent implements OnInit {
   PedidoModal(order:any){
     this.currentOrder=order
     this.modalService.open(this.pedidosModal,{size:'lg'});
+
     (mapboxgl as any).accessToken = environment.mapboxKey
     const map = new mapboxgl.Map({
       container: 'mapa-orden', // container ID
@@ -85,25 +86,9 @@ export class MotoristasComponent implements OnInit {
     const marker = new mapboxgl.Marker()
     .setLngLat([this.currentOrder.long,this.currentOrder.lat])
     .addTo(map);
-
-    map.on('click', this.add_marker);
-  }
-
-  add_marker(event:any) {
-    var coordinates = event.lngLat;
-    console.log('Lng:', coordinates.lng, 'Lat:', coordinates.lat);
-    geocodingClient.reverseGeocode({
-      query: [coordinates.lng, coordinates.lat],
-      types: ['locality']
-    })
-      .send()
-      .then((response:any)=> {
-        // GeoJSON document with geocoding matches
-        const match = response.body;
-        console.log(match.features[0].place_name)
-      });
-    
-    /*this.marker.setLngLat(coordinates).addTo(this.mapa);*/
+    if(this.currentOrder.estado=="Completado" || this.currentOrder.estado=="Cancelado"){
+      this.ButtonUpdateStatus = true
+    }
   }
 
   updateStatus(){
@@ -128,6 +113,7 @@ export class MotoristasComponent implements OnInit {
       }
       this.getOrders()
       alert('Estado actualizado!')
+      this.modalService.dismissAll()
     })
   }
 
@@ -176,15 +162,15 @@ export class MotoristasComponent implements OnInit {
       this.bebidasView=false
     }
   }
-  
+
   constructor(private httpClient: HttpClient, private modalService: NgbModal,private loggedin: IsLoggedInService,private router:Router) { }
 
   ngOnInit(): void {
     this.currentUser=history.state
-    
+
     this.getOrders();
 
-    
+
   }
 
   signOut(){
@@ -198,7 +184,7 @@ export class MotoristasComponent implements OnInit {
       this.motoristUtils.nativeElement.classList.remove("nav-collapse")
     }else{
       this.motoristUtils.nativeElement.classList.add("nav-collapse")
-    }  
+    }
   }
 
 }
