@@ -32,6 +32,9 @@ export class SignupFormComponent implements OnInit {
         email: this.newUserForm.get('email')?.value,
         password: this.newUserForm.get('password')?.value
       })
+      .subscribe((results:any)=>{
+        console.log(results)
+      })
     }else{
       if(this.newUserForm.get('password')?.value!=this.newUserForm.get('passwordAgain')?.value){
         alert('Las contraseñas no concuerdan')
