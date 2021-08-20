@@ -118,40 +118,39 @@ router.get('/empresas',function(req,res){
 })
 
 router.post('/agregarEmpresa',function(req,res){
-    try{
-        getNewEmpresaId(req.body.nombreCategoria)
-        .then(value=>{
-            categoria.updateOne({"nombreCategoria": req.body.nombreCategoria},
-            {
-                $push: {
-                    "empresas":{
-                        id: req.body.nombreCategoria+"-"+value,
-                        nombreEmpresa: req.body.nombreEmpresa,
-                        banner: "../assets/img/empresas/banner.jpg",
-                        productos: []
-                    }
+    var promise = getNewEmpresaId(req.body.nombreCategoria)
+    promise.then(value=>{
+        categoria.updateOne({"nombreCategoria": req.body.nombreCategoria},
+        {
+            $push: {
+                "empresas":{
+                    id: req.body.nombreCategoria+"-"+value,
+                    nombreEmpresa: req.body.nombreEmpresa,
+                    banner: "../assets/img/empresas/banner.jpg",
+                    productos: []
                 }
-            })
-            .then(results=>{
-                res.send(results)
-            })
+            }
         })
-    }catch(e){
-        console.log(e)
-    }
-    
+        .then(results=>{
+            res.send(results)
+        })
+    }).catch(error=>{
+        res.send(error)
+    })
 })
 
 function getNewEmpresaId(nombreCategoria){
-    return new Promise(function(reject,resolve){
+    return new Promise(function(resolve,reject){
         categoria.findOne({"nombreCategoria":nombreCategoria},"empresas -_id")
         .then(results=>{
-            if(results.length==0){
-                resolve(1)
-            }else{
+            if(results.empresas.length==0){
+                return resolve(1)
+            }else if(results.empresas.length>0){
                 let lastId = results.empresas[results.empresas.length-1].id
                 let newId = parseInt(lastId.charAt(lastId.length-1))+1
-                resolve(newId)
+                return resolve(newId)
+            }else{
+                return reject()
             }
         })
     })
