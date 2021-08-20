@@ -50,7 +50,8 @@ router.post('/cancelarOrden',function(req,res){
             }
         })
         .then(results=>{
-            res.send(results)
+            colaPedidos.splice(colaPedidos.findIndex(element=>element.id==req.body.id))
+            res.send(true)
         })
         
     })
