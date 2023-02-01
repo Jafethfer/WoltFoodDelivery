@@ -1,27 +1,17 @@
 # WoltFoodDelivery
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.1.2.
+Mini proyecto de aplicacion web para deliveries. Integrando Google Maps para tracking y demas. 
 
-## Development server
+Frontend desarrollado con Angular 
+Backend desarrollado con NodeJS Express
+Base de Datos utilizado MongoDB
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Paneles
+Incluye panel administrativo, panel de motorista y panel para clientes.
+Cada panel muestra informacion relevante entre roles y deniega accesos a rutas mediante Guards.
 
-## Code scaffolding
+## Estados
+Las ordenes cambian de estado cuando el motorista lo actualiza. El cliente puede ver el estado actual de la orden y consultar su historial de ordenes.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+##Autenticacion
+La aplicacion cuenta con autenticacion por correo y contraseña. 
