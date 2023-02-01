@@ -13,5 +13,5 @@ Cada panel muestra informacion relevante entre roles y deniega accesos a rutas m
 ## Estados
 Las ordenes cambian de estado cuando el motorista lo actualiza. El cliente puede ver el estado actual de la orden y consultar su historial de ordenes.
 
-##Autenticacion
+## Autenticacion
 La aplicacion cuenta con autenticacion por correo y contraseña. 
