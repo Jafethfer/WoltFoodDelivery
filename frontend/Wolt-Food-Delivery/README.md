@@ -2,12 +2,12 @@
 
 Mini proyecto de aplicacion web para deliveries. Integrando Google Maps para tracking y demas. 
 
-Frontend desarrollado con Angular 
-Backend desarrollado con NodeJS Express
-Base de Datos utilizado MongoDB
+Frontend desarrollado con Angular  
+Backend desarrollado con NodeJS Express  
+Base de Datos utilizado MongoDB  
 
 ## Paneles
-Incluye panel administrativo, panel de motorista y panel para clientes.
+Incluye panel administrativo, panel de motorista y panel para clientes.  
 Cada panel muestra informacion relevante entre roles y deniega accesos a rutas mediante Guards.
 
 ## Estados
